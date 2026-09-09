@@ -1,18 +1,60 @@
-PR Rental Services website
+PR Rental Services — GitHub Pages ready build
+===============================================
 
-Premium roller-first home page. Actual supplied CC125 and RW750D photos are used; no JCB hero imagery.
-Phone: 7892123389 / 9980615715
-Email: sales.prrentals25@gmail.com
-Address card and top address link open Google Maps.
-All roller/product cards are touch/click friendly. Photo galleries support horizontal swipe/drag.
+Website purpose:
+Sales • Service • Rental • Suppliers
 
+This build is designed for GitHub Pages and uses only static HTML, CSS and JavaScript.
+No Node.js, npm, Jekyll or external AI API is required.
 
-COMPLETE FINAL BUILD
-- All 8 supplied product/equipment entries retained.
-- CC125 gallery uses the supplied CC125 photos.
-- RW750D/REDLINE gallery uses only supplied RW750D/Redline photos; duplicate gallery entry removed.
-- No old blurred/screenshot album photos are included.
-- Phone, WhatsApp, email and address/map links are clickable.
-- Main site supports zoom + drag/pan; roller photo strip supports touch/mouse drag.
+FILES
+-----
+index.html     Main website
+style.css      Responsive design
+config.js      Business/contact/payment configuration
+script.js      Product cards, forms, WhatsApp, AI assistant, voice, zoom and galleries
+services.json  Reference business/service data
+assets/        All supplied website images
 
-Voice assistant update: ASK AI – PR RENTAL now supports browser-native microphone input and spoken answers using the Web Speech API when the browser/device supports it. It works without an external AI API and answers from the website's stored PR Rental Services data.
+GITHUB PAGES
+------------
+Repository Settings → Pages
+Source: Deploy from a branch
+Branch: main
+Folder: /(root)
+
+IMPORTANT:
+Upload the CONTENTS of this folder to the ROOT of the repository.
+Do not create an extra nested folder such as:
+PR_Rental_Services_COMPLETE_FINAL/index.html
+
+Correct:
+index.html
+style.css
+config.js
+script.js
+services.json
+assets/...
+
+FEATURES CHECKED
+----------------
+- All local image/script/style paths point to files included in this package.
+- index.html is at the publishing root.
+- JavaScript passes syntax validation.
+- Product cards and the Full Details buttons open the correct product modal.
+- Product image thumbnails work.
+- Enquiry buttons open WhatsApp.
+- Helpdesk and Submit Requirement forms open WhatsApp / email.
+- Phone, email, WhatsApp and Google Maps links are clickable.
+- UPI QR and direct UPI button are included.
+- ASK AI – PR RENTAL works with stored website information.
+- Browser voice input/output is used when supported by the browser/device.
+- Mobile menu closes after selecting a section.
+- Escape closes open panels/modals.
+- Zoom + drag/pan and roller photo strip are included.
+- All supplied assets are included under assets/.
+
+NOTE
+----
+Browser-native speech recognition is not supported by every browser/device.
+WhatsApp, email, phone, maps and UPI actions depend on the user's device/apps.

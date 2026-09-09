@@ -11,24 +11,82 @@
     "address": "Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094"
   },
   "products": [
-    {"name":"Forward Plate Compactor","price":"₹75,000 / Piece","basis":"Sale / Rental"},
-    {"name":"Walk Behind Roller Rental Service — DYNAPAC RW 750 D","price":"₹3,500 / Day","basis":"Rental"},
-    {"name":"Single Drum Vibratory Roller Rental Service","price":"₹95,000 / Month","basis":"Rental"},
-    {"name":"Mini Roller Rental Services — Dynapac CC125","price":"₹70,000 / Month","basis":"Rental"},
-    {"name":"3 Ton Compactor Rental Service","price":"₹90,000 / Month","basis":"Rental"},
-    {"name":"Soil Compactor Road Roller Rental Service","price":"₹90,000 / Month","basis":"Rental"},
-    {"name":"Vibratory Rammer Machine","price":"₹70,000 / Piece","basis":"Sale / Rental"},
-    {"name":"Steel Bending Machine","price":"₹1,10,000 / Piece","basis":"Sale"}
+    {
+      "name": "Forward Plate Compactor",
+      "price": "₹75,000 / Piece",
+      "basis": "Sale / Rental"
+    },
+    {
+      "name": "Walk Behind Roller Rental Service — DYNAPAC RW 750 D",
+      "price": "₹3,500 / Day",
+      "basis": "Rental"
+    },
+    {
+      "name": "Single Drum Vibratory Roller Rental Service",
+      "price": "₹95,000 / Month",
+      "basis": "Rental"
+    },
+    {
+      "name": "Mini Roller Rental Services — Dynapac CC125",
+      "price": "₹70,000 / Month",
+      "basis": "Rental"
+    },
+    {
+      "name": "3 Ton Compactor Rental Service",
+      "price": "₹90,000 / Month",
+      "basis": "Rental"
+    },
+    {
+      "name": "Soil Compactor Road Roller Rental Service",
+      "price": "₹90,000 / Month",
+      "basis": "Rental"
+    },
+    {
+      "name": "Vibratory Rammer Machine",
+      "price": "₹70,000 / Piece",
+      "basis": "Sale / Rental"
+    },
+    {
+      "name": "Steel Bending Machine",
+      "price": "₹1,10,000 / Piece",
+      "basis": "Sale"
+    }
   ],
   "services": [
-    "Walk Behind Roller Rental Service","Walk Behind Roller On Rent","Construction Equipment Rental Service","REDLINE WALK BEHIND ROLLER For Sale",
-    "Forward Plate Compactor","Walk behind Vibrating Roller","Dynapac Walk Behind Roller","PLATE COMPACTOR FORWARD REDLINE (RV80)","Earth Rammer for sale",
-    "Baby Roller Rental Service","Reversible Plate Compactor Rental Service","Soil Compactor Road Roller Rental Service","Single Drum Vibratory Roller Rental Service","Plate Compactor Rental Service","Baby Roller Mini Roller",
-    "Mini Roller Rental Services","3 Ton Compactor Rental Service","Steel Bending Machine","Vibratory Rammer Machine","Bar Bending Machine For Sale","Stroke Mobile Lighting Tower","Portable Light Tower","Road Roller Rental"
+    "Walk Behind Roller Rental Service",
+    "Walk Behind Roller On Rent",
+    "Construction Equipment Rental Service",
+    "REDLINE WALK BEHIND ROLLER For Sale",
+    "Forward Plate Compactor",
+    "Walk behind Vibrating Roller",
+    "Dynapac Walk Behind Roller",
+    "PLATE COMPACTOR FORWARD REDLINE (RV80)",
+    "Earth Rammer for sale",
+    "Baby Roller Rental Service",
+    "Reversible Plate Compactor Rental Service",
+    "Soil Compactor Road Roller Rental Service",
+    "Single Drum Vibratory Roller Rental Service",
+    "Plate Compactor Rental Service",
+    "Baby Roller Mini Roller",
+    "Mini Roller Rental Services",
+    "3 Ton Compactor Rental Service",
+    "Steel Bending Machine",
+    "Vibratory Rammer Machine",
+    "Bar Bending Machine For Sale",
+    "Stroke Mobile Lighting Tower",
+    "Portable Light Tower",
+    "Road Roller Rental"
   ],
   "leadership": [
-    {"name":"Praveen Polepalli","role":"Chairman — PR Rental Services","title":"Proprietor"},
-    {"name":"Pratibha Polepalli","role":"CEO — PR Rental Services"}
+    {
+      "name": "Praveen Polepalli",
+      "role": "Chairman — PR Rental Services",
+      "title": "Proprietor"
+    },
+    {
+      "name": "Pratibha Polepalli",
+      "role": "PR Rental Services"
+    }
   ],
   "upi": "9591887914-2@axl"
 }
