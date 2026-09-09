@@ -30,6 +30,71 @@ document.getElementById('readMore').onclick=()=>{document.getElementById('moreAb
 const helpMsg=document.getElementById('helpMessage');helpMsg.addEventListener('input',()=>setCount(helpMsg,document.getElementById('wordCount')));document.getElementById('helpForm').addEventListener('submit',e=>{e.preventDefault();if(words(helpMsg.value)>500)return;whatsapp(makeMessage(document.getElementById('helpType').value,document.getElementById('helpName').value,document.getElementById('helpPhone').value,helpMsg.value));});document.getElementById('emailHelp').onclick=()=>{const subject=`PR Rental Services – ${document.getElementById('helpType').value}`;location.href=`mailto:${C.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(makeMessage(document.getElementById('helpType').value,document.getElementById('helpName').value,document.getElementById('helpPhone').value,helpMsg.value))}`;};
 const reqMsg=document.getElementById('reqMessage');reqMsg.addEventListener('input',()=>setCount(reqMsg,document.getElementById('reqCount')));document.getElementById('requirementForm').addEventListener('submit',e=>{e.preventDefault();if(words(reqMsg.value)>500)return;whatsapp(makeMessage('Submit Requirement',document.getElementById('reqName').value,document.getElementById('reqPhone').value,reqMsg.value));});
 const ai=document.getElementById('aiPanel');document.getElementById('aiBtn').onclick=()=>ai.classList.toggle('open');document.getElementById('aiClose').onclick=()=>ai.classList.remove('open');
+
+// ASK AI – PR RENTAL: browser-native voice assistant with the website's stored knowledge.
+const aiInput=document.getElementById('aiInput');
+const aiChat=document.getElementById('aiChat');
+const aiSend=document.getElementById('aiSend');
+const aiMic=document.getElementById('aiMic');
+const aiStop=document.getElementById('aiStop');
+const aiVoiceStatus=document.getElementById('aiVoiceStatus');
+let recognition=null, speaking=false;
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+function aiAdd(text, who='bot'){
+  const el=document.createElement('div'); el.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot'); el.textContent=text; aiChat.appendChild(el); aiChat.scrollTop=aiChat.scrollHeight;
+}
+function aiSpeak(text){
+  if(!('speechSynthesis' in window)) { aiVoiceStatus.textContent='Voice playback is not supported'; return; }
+  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-IN'; u.rate=.96; u.pitch=1;
+  const voices=speechSynthesis.getVoices(); const v=voices.find(x=>/^en-IN/i.test(x.lang))||voices.find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
+  u.onstart=()=>{speaking=true;aiVoiceStatus.textContent='Speaking…'}; u.onend=()=>{speaking=false;aiVoiceStatus.textContent='Voice ready'}; u.onerror=()=>{speaking=false;aiVoiceStatus.textContent='Voice playback unavailable'}; speechSynthesis.speak(u);
+}
+function aiProductAnswer(q){
+  const s=q.toLowerCase();
+  const aliases=[
+    ['rw750d',['rw750d','rw 750','walk behind','redline','walk-behind']],
+    ['mini',['cc125','cc 125','mini roller','baby roller','baby roller mini']],
+    ['vib10',['10 ton','10-ton','single drum vibratory']],
+    ['soil',['12 ton','12-ton','soil compactor','road roller']],
+    ['plate',['plate compactor','forward plate','rv80']],
+    ['compactor3',['3 ton','3-ton compactor']],
+    ['steel',['steel bending','bar bending','rebar']],
+    ['rammer',['rammer','earth rammer','vibratory rammer']]
+  ];
+  for(const [id,keys] of aliases){ if(keys.some(k=>s.includes(k))){ const p=products.find(x=>x.id===id); if(!p) continue; return `${p.name}. Price: ${p.price}. ${p.desc} ${p.specs.map(x=>x[0]+': '+x[1]).join('. ')}.`; }}
+  return null;
+}
+function aiAnswer(q){
+  const s=q.toLowerCase().trim(); if(!s) return 'Please ask me a question about PR Rental Services.';
+  const p=aiProductAnswer(s); if(p) return p;
+  if(/price|rate|cost|rent|rental|how much/.test(s)){ return products.map(x=>`${x.name}: ${x.price}`).join('. ')+'.'; }
+  if(/phone|mobile|call|contact number|number/.test(s)) return 'You can call PR Rental Services on 7892123389 or 9980615715. Both numbers are available from the website contact buttons.';
+  if(/whatsapp|whats app/.test(s)) return 'You can contact PR Rental Services on WhatsApp using the WhatsApp button on the website. It opens WhatsApp directly.';
+  if(/email|mail/.test(s)) return 'The PR Rental Services email is sales.prrentals25@gmail.com. Tap the email button to open your email app.';
+  if(/address|location|where|map|office/.test(s)) return 'The office address is Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094. Tap Address or Get Directions to open the map.';
+  if(/gst|gstin|tax/.test(s)) return 'The GSTIN is 29BFVPP3412E1Z6.';
+  if(/upi|payment|pay|qr|transaction|utr/.test(s)) return 'PR Rental Services supports UPI payment. The website has a payment QR and a direct UPI button. After payment, submit the UTR or payment screenshot through the Helpdesk.';
+  if(/service|services|offer|available/.test(s)) return 'PR Rental Services offers Walk Behind Roller Rental Service, Walk Behind Roller On Rent, Construction Equipment Rental Service, REDLINE Walk Behind Roller for Sale, Forward Plate Compactor, Walk Behind Vibrating Roller, Dynapac Walk Behind Roller, Plate Compactor Forward Redline RV80, Earth Rammer, Baby Roller Rental, Reversible Plate Compactor Rental, Soil Compactor Road Roller Rental, Single Drum Vibratory Roller Rental, Plate Compactor Rental, Mini Roller, 3 Ton Compactor, Steel Bending Machine, Vibratory Rammer, Bar Bending Machine, Mobile Light Tower and Road Roller Rental.';
+  if(/about|company|business|established|owner|chairman|ceo|leadership/.test(s)) return 'PR Rental Services was established in 2025 and operates as a service provider and proprietorship. Praveen Polepalli is Chairman and Proprietor. Pratibha Polepalli is CEO.';
+  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent/.test(s)) return 'The Helpdesk supports Sales Enquiry, Machine Rental, Machine Availability, Rental or Booking Request, Quotation Request, Service and Repair, Supplier Enquiry, Supplier Registration, Payment or Transaction Issue, Invoice or GST, Payment Screenshot or UTR, General Enquiry, Complaint, Urgent Support and Other Help.';
+  if(/why|reliable|support|quality/.test(s)) return 'PR Rental Services focuses on timely and reliable service, affordable rental plans, a wide range of rental options, customer-focused support, trained staff, flexible rental terms, 24x7 support and trusted client relationships.';
+  return 'I can help with PR Rental Services products, roller specifications, prices, rental options, services, availability enquiries, quotation requests, service and repair, payment, GSTIN, contact numbers, WhatsApp, email, address and Helpdesk. Please ask your question.';
+}
+function aiAsk(q){ const text=q.trim(); if(!text)return; aiAdd(text,'user'); const ans=aiAnswer(text); aiAdd(ans,'bot'); aiSpeak(ans); }
+aiSend.onclick=()=>{aiAsk(aiInput.value);aiInput.value='';aiInput.focus();};
+aiInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();aiSend.click();}});
+aiStop.onclick=()=>{if('speechSynthesis' in window)speechSynthesis.cancel();if(recognition)recognition.stop();aiVoiceStatus.textContent='Voice stopped';};
+if(SpeechRecognition){
+  recognition=new SpeechRecognition(); recognition.lang='en-IN'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=1;
+  recognition.onstart=()=>{aiVoiceStatus.textContent='Listening…';aiMic.classList.add('listening');};
+  recognition.onend=()=>{aiMic.classList.remove('listening');if(aiVoiceStatus.textContent==='Listening…')aiVoiceStatus.textContent='Voice ready';};
+  recognition.onerror=()=>{aiMic.classList.remove('listening');aiVoiceStatus.textContent='Could not hear. Try again.';};
+  recognition.onresult=e=>{const text=e.results[0][0].transcript;aiInput.value=text;aiAsk(text);aiInput.value='';};
+  aiMic.onclick=()=>{try{speechSynthesis.cancel();recognition.start();}catch(err){aiVoiceStatus.textContent='Microphone is already active';}};
+}else{ aiMic.disabled=true; aiVoiceStatus.textContent='Speech input not supported in this browser'; }
+if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>{};
+
 document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
 // Zoom + drag/pan stage
 const vp=document.getElementById('zoomViewport'),stage=document.getElementById('siteStage');let scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;

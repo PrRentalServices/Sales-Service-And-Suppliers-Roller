@@ -14,3 +14,5 @@ COMPLETE FINAL BUILD
 - No old blurred/screenshot album photos are included.
 - Phone, WhatsApp, email and address/map links are clickable.
 - Main site supports zoom + drag/pan; roller photo strip supports touch/mouse drag.
+
+Voice assistant update: ASK AI – PR RENTAL now supports browser-native microphone input and spoken answers using the Web Speech API when the browser/device supports it. It works without an external AI API and answers from the website's stored PR Rental Services data.

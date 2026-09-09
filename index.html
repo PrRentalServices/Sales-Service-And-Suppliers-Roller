@@ -1,3 +1,4 @@
+<!-- GitHub Pages rebuild -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -45,7 +46,14 @@
 
 <div class="zoombar"><button id="zoomOut">−</button><span id="zoomLevel">100%</span><button id="zoomIn">+</button><button id="zoomReset">Reset</button><span>Zoom + drag: kisi bhi side dekhein</span></div>
 <button class="float-ai" id="aiBtn"><img src="assets/ai-assistant-lady.png" alt="ASK AI – PR RENTAL"><span>ASK AI – PR RENTAL</span></button>
-<div class="ai-panel" id="aiPanel"><div class="ai-head"><div><img src="assets/ai-assistant-lady.png"><b>ASK AI – PR RENTAL</b></div><button id="aiClose">×</button></div><div class="ai-body"><p><b>How can we help?</b></p><div id="aiChoices"></div><p class="ai-note">Choose a topic to open a WhatsApp request.</p></div></div>
+<div class="ai-panel" id="aiPanel"><div class="ai-head"><div><img src="assets/ai-assistant-lady.png"><b>ASK AI – PR RENTAL</b></div><button id="aiClose">×</button></div><div class="ai-body">
+  <p><b>Ask PR Rental Services anything</b></p>
+  <div class="ai-chat" id="aiChat" aria-live="polite"><div class="ai-msg ai-msg-bot">Hello! I am ASK AI – PR RENTAL. Ask me about our rollers, prices, services, contact details, address, payment or helpdesk.</div></div>
+  <div class="ai-input-row"><input id="aiInput" type="text" placeholder="Type your question…" autocomplete="off"><button id="aiSend" type="button" aria-label="Send">➤</button></div>
+  <div class="ai-voice-row"><button id="aiMic" type="button" class="ai-voice-btn">🎙️ <span>Speak</span></button><button id="aiStop" type="button" class="ai-voice-btn muted">🔇 <span>Stop Voice</span></button><span id="aiVoiceStatus" class="ai-voice-status">Voice ready</span></div>
+  <div class="ai-quick" id="aiChoices"></div>
+  <p class="ai-note">Voice input and spoken replies use your browser's built-in speech features. Live AI API is not required for this offline website assistant.</p>
+</div></div>
 <div class="modal" id="qrModal"><div class="modal-box"><button class="modal-close" id="qrClose">×</button><h3>PR Rental Services Payment QR</h3><img src="assets/payment-qr.png" alt="UPI QR"><p>After payment, submit UTR / transaction screenshot through Helpdesk.</p></div></div>
 <div class="product-modal" id="productModal"><div class="product-modal-box"><button class="modal-close" id="productClose">×</button><div id="productModalBody"></div></div></div>
 <div class="toast" id="toast"></div>
