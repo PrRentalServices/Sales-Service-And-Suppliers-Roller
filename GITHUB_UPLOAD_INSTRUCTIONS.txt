@@ -1,0 +1,23 @@
+PR RENTAL SERVICES — GITHUB PAGES READY BUILD
+
+1. Extract this ZIP.
+2. Upload ALL files inside this folder to the ROOT of the GitHub repository.
+3. index.html, style.css, script.js and config.js must be directly in the repository root.
+4. Keep every image file in the same root folder as index.html.
+5. In GitHub Pages, publish from the repository's main branch and /(root).
+6. After publishing, hard-refresh the page once if an older version is cached.
+
+THIS BUILD INCLUDES:
+- Premium light theme and dimensional 3D PR RENTAL SERVICES hero heading.
+- Larger, more readable typography throughout the website.
+- Native browser pinch-to-zoom enabled for the whole page. Two-finger zoom is NOT blocked by a custom drag layer.
+- Product/service/roller images use local root paths and were checked against the package files.
+- Product detail galleries and enquiry buttons.
+- Helpdesk forms with WhatsApp/email actions.
+- ASK AI with the supplied AI image, browser voice input and automatic spoken replies.
+- Any normal page touch/click stops AI speech immediately.
+- UPI QR is generated in the browser from the configured UPI payment URI when the Generate / Show Payment QR button is pressed. No external QR service is required.
+- Direct UPI payment button.
+
+UPI ID configured in config.js:
+9591887914-2@axl
