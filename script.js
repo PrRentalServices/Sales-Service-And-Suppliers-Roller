@@ -48,7 +48,7 @@ const helpMsg=document.getElementById('helpMessage');helpMsg.addEventListener('i
 const reqMsg=document.getElementById('reqMessage');reqMsg.addEventListener('input',()=>setCount(reqMsg,document.getElementById('reqCount')));document.getElementById('requirementForm').addEventListener('submit',e=>{e.preventDefault();if(words(reqMsg.value)>500)return;whatsapp(makeMessage('Submit Requirement',document.getElementById('reqName').value,document.getElementById('reqPhone').value,reqMsg.value));});
 const ai=document.getElementById('aiPanel');document.getElementById('aiBtn').onclick=()=>ai.classList.toggle('open');document.getElementById('aiClose').onclick=()=>ai.classList.remove('open');
 
-// ASK AI – PR RENTAL: browser-native voice assistant with the website's stored knowledge.
+// ASK AI – PR RENTAL: browser-native voice assistant with website knowledge.
 const aiInput=document.getElementById('aiInput');
 const aiChat=document.getElementById('aiChat');
 const aiSend=document.getElementById('aiSend');
@@ -61,83 +61,110 @@ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition
 function aiAdd(text, who='bot'){
   const el=document.createElement('div'); el.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot'); el.textContent=text; aiChat.appendChild(el); aiChat.scrollTop=aiChat.scrollHeight;
 }
-function aiSpeak(text){
+function aiSpeak(text, lang='en-IN'){
   if(!('speechSynthesis' in window)) { aiVoiceStatus.textContent='Voice playback is not supported'; return; }
-  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=/[\u0900-\u097F]/.test(text)?'hi-IN':'en-IN'; u.rate=.96; u.pitch=1;
-  const voices=speechSynthesis.getVoices(); const v=voices.find(x=>/^en-IN/i.test(x.lang))||voices.find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
+  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=lang||'en-IN'; u.rate=.96; u.pitch=1;
+  const voices=speechSynthesis.getVoices(); const v=voices.find(x=>x.lang.toLowerCase()===u.lang.toLowerCase())||voices.find(x=>x.lang.toLowerCase().startsWith((u.lang||'en').split('-')[0])); if(v) u.voice=v;
   u.onstart=()=>{speaking=true;aiVoiceStatus.textContent='Speaking…'}; u.onend=()=>{speaking=false;aiVoiceStatus.textContent='Voice ready'}; u.onerror=()=>{speaking=false;aiVoiceStatus.textContent='Voice playback unavailable'}; speechSynthesis.speak(u);
 }
-// Any normal touch/click on the website immediately silences spoken AI output.
+
 document.addEventListener('pointerdown', e=>{
-  if(speaking && !e.target.closest('#aiMic')){
-    if('speechSynthesis' in window) speechSynthesis.cancel();
-    speaking=false;
-    aiVoiceStatus.textContent='Voice stopped by touch';
-  }
+  if(speaking && !e.target.closest('#aiMic')){ if('speechSynthesis' in window) speechSynthesis.cancel(); speaking=false; aiVoiceStatus.textContent='Voice stopped by touch'; }
 },{passive:true});
 
-function aiProductAnswer(q){
+function aiProductMatch(q){
   const s=q.toLowerCase();
   const aliases=[
-    ['rw750d',['rw750d','rw 750','walk behind','redline','walk-behind']],
-    ['mini',['cc125','cc 125','mini roller','baby roller','baby roller mini']],
-    ['cc245',['cc245','cc 245','single drum vibratory roller','10 ton vibratory roller']],
-    ['vib10',['10 ton','10-ton','single drum vibratory']],
-    ['soil',['12 ton','12-ton','soil compactor','road roller']],
-    ['plate',['plate compactor','forward plate','rv80']],
-    ['compactor3',['3 ton','3-ton compactor']],
-    ['steel',['steel bending','bar bending','rebar']],
-    ['rammer',['rammer','earth rammer','vibratory rammer']]
+    ['rw750d',['rw750d','rw 750','walk behind','redline','walk-behind']],['mini',['cc125','cc 125','mini roller','baby roller']],
+    ['cc245',['cc245','cc 245','single drum vibratory roller','10 ton vibratory roller']],['vib10',['10 ton','10-ton','single drum vibratory']],
+    ['soil',['12 ton','12-ton','soil compactor','road roller']],['plate',['plate compactor','forward plate','rv80']],['compactor3',['3 ton','3-ton compactor']],
+    ['steel',['steel bending','bar bending','rebar']],['rammer',['rammer','earth rammer','vibratory rammer']]
   ];
-  for(const [id,keys] of aliases){ if(keys.some(k=>s.includes(k))){ const p=products.find(x=>x.id===id); if(!p) continue; return `${p.name}. Price: ${p.price}. ${p.desc} ${p.specs.map(x=>x[0]+': '+x[1]).join('. ')}.`; }}
+  for(const [id,keys] of aliases) if(keys.some(k=>s.includes(k))){ const p=products.find(x=>x.id===id); if(p) return p; }
+  return null;
+}
+function aiTarget(q){
+  const s=q.toLowerCase();
+  const p=aiProductMatch(s);
+  if(p) return p.id==='cc245'||p.id==='mini'||p.id==='rw750d' ? '#home' : '#products';
+  if(/service|services|offer|rental|rent|machine|equipment|compactor|roller|bending|rammer|plate/.test(s)) return '#products';
+  if(/gallery|photo|photos|actual roller|pictures|images/.test(s)) return '#gallery';
+  if(/about|company|business|established|owner|chairman|ceo|leadership/.test(s)) return '#about';
+  if(/why|reliable|support|quality/.test(s)) return '#why';
+  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent/.test(s)) return '#helpdesk';
+  if(/payment|upi|qr|transaction|utr/.test(s)) return '#payment';
+  if(/contact|phone|mobile|call|whatsapp|email|mail|address|location|map|office|gst|gstin/.test(s)) return '#contact';
   return null;
 }
 function aiAnswer(q){
-  const s=q.toLowerCase().trim(); if(!s) return 'Please ask me a question about PR Rental Services.';
-  const p=aiProductAnswer(s); if(p) return p;
-  if(/price|rate|cost|rent|rental|how much/.test(s)){ return products.map(x=>`${x.name}: ${x.price}`).join('. ')+'.'; }
-  if(/phone|mobile|call|contact number|number/.test(s)) return 'You can call PR Rental Services on 7892123389 or 9980615715. Both numbers are available from the website contact buttons.';
-  if(/whatsapp|whats app/.test(s)) return 'You can contact PR Rental Services on WhatsApp using the WhatsApp button on the website. It opens WhatsApp directly.';
-  if(/email|mail/.test(s)) return 'The PR Rental Services email is sales.prrentals25@gmail.com. Tap the email button to open your email app.';
-  if(/address|location|where|map|office/.test(s)) return 'The office address is Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094. Tap Address or Get Directions to open the map.';
-  if(/gst|gstin|tax/.test(s)) return 'The GSTIN is 29BFVPP3412E1Z.';
-  if(/upi|payment|pay|qr|transaction|utr/.test(s)) return 'PR Rental Services supports UPI payment. The website has a payment QR and a direct UPI button. After payment, submit the UTR or payment screenshot through the Helpdesk.';
-  if(/service|services|offer|available/.test(s)) return 'PR Rental Services offers Walk Behind Roller Rental Service, Walk Behind Roller On Rent, Construction Equipment Rental Service, REDLINE Walk Behind Roller for Sale, Forward Plate Compactor, Walk Behind Vibrating Roller, Dynapac Walk Behind Roller, Plate Compactor Forward Redline RV80, Earth Rammer, Baby Roller Rental, Reversible Plate Compactor Rental, Soil Compactor Road Roller Rental, Single Drum Vibratory Roller Rental, Plate Compactor Rental, Mini Roller, 3 Ton Compactor, Steel Bending Machine, Vibratory Rammer, Bar Bending Machine, Mobile Light Tower and Road Roller Rental.';
-  if(/about|company|business|established|owner|chairman|ceo|leadership/.test(s)) return 'PR Rental Services was established in 2025 and operates as a service provider and proprietorship. Praveen Polepalli is Chairman and Proprietor. Pratibha Polepalli is CEO.';
-  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent/.test(s)) return 'The Helpdesk supports Sales Enquiry, Machine Rental, Machine Availability, Rental or Booking Request, Quotation Request, Service and Repair, Supplier Enquiry, Supplier Registration, Payment or Transaction Issue, Invoice or GST, Payment Screenshot or UTR, General Enquiry, Complaint, Urgent Support and Other Help.';
-  if(/why|reliable|support|quality/.test(s)) return 'PR Rental Services focuses on timely and reliable service, affordable rental plans, a wide range of rental options, customer-focused support, trained staff, flexible rental terms, 24x7 support and trusted client relationships.';
-  return 'I can help with PR Rental Services products, roller specifications, prices, rental options, services, availability enquiries, quotation requests, service and repair, payment, GSTIN, contact numbers, WhatsApp, email, address and Helpdesk. Please ask your question.';
+  const s=q.toLowerCase().trim(); if(!s) return {text:'Please ask me a question about PR Rental Services.',target:null,lang:'en-IN'};
+  const p=aiProductMatch(s);
+  if(p) return {text:`${p.name}. Price: ${p.price}. ${p.desc} ${p.specs.map(x=>x[0]+': '+x[1]).join('. ')}.`,target:aiTarget(s),lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/price|rate|cost|rent|rental|how much/.test(s)) return {text:products.map(x=>`${x.name}: ${x.price}`).join('. ')+'.',target:'#products',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/phone|mobile|call|contact number|number/.test(s)) return {text:'You can call PR Rental Services on 7892123389 or 9980615715.',target:'#contact',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/whatsapp|whats app/.test(s)) return {text:'Use the WhatsApp button on the website to contact PR Rental Services directly.',target:'#contact',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/email|mail/.test(s)) return {text:'The PR Rental Services email is sales.prrentals25@gmail.com. Tap the email button to open your email app.',target:'#contact',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/address|location|where|map|office/.test(s)) return {text:'The PR Rental Services office is in Nagashetty Halli, Bengaluru Urban, Karnataka 560094. Tap Address or Get Directions to open the map.',target:'#contact',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/gst|gstin|tax/.test(s)) return {text:'The GSTIN is 29BFVPP3412E1Z.',target:'#contact',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/upi|payment|pay|qr|transaction|utr/.test(s)) return {text:'PR Rental Services supports UPI payment. The payment QR and direct UPI button are in the Payment section.',target:'#payment',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/service|services|offer|available/.test(s)) return {text:'PR Rental Services offers roller rentals, plate compactors, soil compactors, mini roller, CC245, RW750D, CC125, steel bending, bar bending, rammer, mobile light tower and related equipment services.',target:'#products',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/about|company|business|established|owner|chairman|ceo|leadership/.test(s)) return {text:'PR Rental Services was established in 2025 and operates as a service provider and proprietorship. Praveen Polepalli is Chairman and Proprietor. Pratibha Polepalli is CEO.',target:'#about',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent/.test(s)) return {text:'The Helpdesk supports sales, rental, availability, booking, quotation, repair, supplier, payment, GST, UTR, complaints and urgent support.',target:'#helpdesk',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  if(/why|reliable|support|quality/.test(s)) return {text:'PR Rental Services focuses on timely service, affordable rental plans, wide equipment options, customer support, trained staff and flexible rental terms.',target:'#why',lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
+  return {text:'I can help with PR Rental Services products, roller specifications, prices, rentals, services, payment, contact details and Helpdesk. I will take you to the relevant website section when your question matches one.',target:aiTarget(s),lang:/[\u0900-\u097F]/.test(q)?'hi-IN':'en-IN'};
 }
-function aiAsk(q){ const text=q.trim(); if(!text)return; aiAdd(text,'user'); const ans=aiAnswer(text); aiAdd(ans,'bot'); aiSpeak(ans); }
+function aiGo(target){ if(!target)return; const el=document.querySelector(target); if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),120); }
+function aiAsk(q, voiceLang){ const text=q.trim(); if(!text)return; aiAdd(text,'user'); const ans=aiAnswer(text); aiAdd(ans.text,'bot'); aiGo(ans.target); aiSpeak(ans.text,voiceLang||ans.lang); }
 aiSend.onclick=()=>{aiAsk(aiInput.value);aiInput.value='';aiInput.focus();};
 aiInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();aiSend.click();}});
 aiStop.onclick=()=>{if('speechSynthesis' in window)speechSynthesis.cancel();if(recognition)recognition.stop();aiVoiceStatus.textContent='Voice stopped';};
+
+// Browser-native speech recognition: use the device/browser preferred Indian language when available.
+// The Web Speech API does not expose a universal "auto-detect every language" mode, so we select the
+// best available Indian locale from the browser language list instead of pretending one language is all-language.
+const indianSpeechLangs=['hi-IN','kn-IN','te-IN','ta-IN','ml-IN','mr-IN','bn-IN','gu-IN','pa-IN','or-IN','ur-IN','en-IN'];
+function pickSpeechLang(){
+  const langs=(navigator.languages||[navigator.language||'en-IN']).map(x=>x.toLowerCase());
+  const map={hi:'hi-IN',kn:'kn-IN',te:'te-IN',ta:'ta-IN',ml:'ml-IN',mr:'mr-IN',bn:'bn-IN',gu:'gu-IN',pa:'pa-IN',or:'or-IN',ur:'ur-IN',en:'en-IN'};
+  for(const l of langs){const base=l.split('-')[0];if(map[base])return map[base];}
+  return 'en-IN';
+}
 if(SpeechRecognition){
-  recognition=new SpeechRecognition(); recognition.lang='hi-IN'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=1;
-  recognition.onstart=()=>{aiVoiceStatus.textContent='Listening…';aiMic.classList.add('listening');};
-  recognition.onend=()=>{aiMic.classList.remove('listening');if(aiVoiceStatus.textContent==='Listening…')aiVoiceStatus.textContent='Voice ready';};
-  recognition.onerror=()=>{aiMic.classList.remove('listening');aiVoiceStatus.textContent='Could not hear. Try again.';};
-  recognition.onresult=e=>{const text=e.results[0][0].transcript;aiInput.value=text;aiAsk(text);aiInput.value='';};
-  aiMic.onclick=()=>{try{speechSynthesis.cancel();recognition.start();}catch(err){aiVoiceStatus.textContent='Microphone is already active';}};
-}else{ aiMic.disabled=true; aiVoiceStatus.textContent='Speech input not supported in this browser'; }
+  recognition=new SpeechRecognition(); recognition.lang=pickSpeechLang(); recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=3;
+  recognition.onstart=()=>{aiVoiceStatus.textContent=`Listening… (${recognition.lang})`;aiMic.classList.add('listening');};
+  recognition.onend=()=>{aiMic.classList.remove('listening');if(aiVoiceStatus.textContent.startsWith('Listening'))aiVoiceStatus.textContent='Voice ready';};
+  recognition.onerror=e=>{aiMic.classList.remove('listening');aiVoiceStatus.textContent=e.error==='not-allowed'?'Microphone permission denied':'Could not hear. Try again.';};
+  recognition.onresult=e=>{const r=e.results[0][0]; const text=r.transcript; aiInput.value=text; aiAsk(text,recognition.lang); aiInput.value='';};
+  aiMic.onclick=()=>{try{speechSynthesis.cancel();recognition.lang=pickSpeechLang();recognition.start();}catch(err){aiVoiceStatus.textContent='Microphone is already active';}};
+}else{ aiMic.disabled=true; aiVoiceStatus.textContent='Speech input is not supported in this browser'; }
 if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>{};
 
-document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
-// Native browser pinch-zoom is enabled for the entire page; no custom pointer layer is used.
-renderCategories();renderProducts();fillTopics();
-
-
-// Main heading/logo photo strip: drag on desktop/mobile and keep every photo reachable.
+// Actual Roller Gallery: touch/mouse drag plus fast continuous auto-scroll.
 (() => {
   const strip = document.getElementById('photoStrip');
-  if (!strip) return;
-  let down = false, startX = 0, startScroll = 0, moved = false;
-  strip.addEventListener('pointerdown', e => { down = true; moved = false; startX = e.clientX; startScroll = strip.scrollLeft; strip.classList.add('dragging'); strip.setPointerCapture?.(e.pointerId); });
-  strip.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - startX; if (Math.abs(dx) > 4) moved = true; strip.scrollLeft = startScroll - dx; });
-  const end = () => { down = false; strip.classList.remove('dragging'); };
-  strip.addEventListener('pointerup', end); strip.addEventListener('pointercancel', end); strip.addEventListener('pointerleave', end);
-  strip.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { e.preventDefault(); strip.scrollLeft += e.deltaY; } }, {passive:false});
-  strip.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+  const track = document.getElementById('photoTrack');
+  if (!strip || !track) return;
+  let down=false,startX=0,startScroll=0,moved=false;
+  strip.addEventListener('pointerdown',e=>{down=true;moved=false;startX=e.clientX;startScroll=strip.scrollLeft;strip.classList.add('dragging');strip.setPointerCapture?.(e.pointerId);pause();});
+  strip.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-startX;if(Math.abs(dx)>4)moved=true;strip.scrollLeft=startScroll-dx;});
+  const end=()=>{if(!down)return;down=false;strip.classList.remove('dragging');resume();};
+  strip.addEventListener('pointerup',end);strip.addEventListener('pointercancel',end);strip.addEventListener('pointerleave',end);
+  strip.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){e.preventDefault();strip.scrollLeft+=e.deltaY;}pause();resume();},{passive:false});
+  strip.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();}},true);
+
+  if(!track.dataset.autoReady){
+    track.dataset.autoReady='1';
+    const originals=Array.from(track.children).map(el=>el.cloneNode(true));
+    originals.forEach(el=>track.appendChild(el));
+  }
+  let halfWidth=0,raf=0,running=true,resumeTimer=0;
+  const speed=0.95; // fast but still readable
+  const measure=()=>{halfWidth=track.scrollWidth/2;};
+  function pause(){running=false;clearTimeout(resumeTimer);cancelAnimationFrame(raf);}
+  function resume(){clearTimeout(resumeTimer);resumeTimer=setTimeout(()=>{running=true;measure();strip.classList.add('auto-scrolling');raf=requestAnimationFrame(tick);},700);}
+  function tick(){if(!running)return;if(halfWidth<=0)measure();strip.scrollLeft+=speed;if(strip.scrollLeft>=halfWidth)strip.scrollLeft-=halfWidth;raf=requestAnimationFrame(tick);}
+  window.addEventListener('resize',measure,{passive:true});
+  measure();strip.classList.add('auto-scrolling');raf=requestAnimationFrame(tick);
 })();
 
 // Touch-friendly cards and address map.
