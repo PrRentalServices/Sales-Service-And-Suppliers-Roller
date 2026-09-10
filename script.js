@@ -22,6 +22,23 @@ function makeMessage(title,name,phone,message){return `PR RENTAL SERVICES – WE
 function renderCategories(){document.getElementById('categoryGrid').innerHTML=categories.map((c,i)=>`<article class="cat-card" data-cat="${i}" tabindex="0" role="button"><div class="cat-media">${c[2]?`<img src="${c[2]}" alt="${esc(c[0])}">`:`<div class="cat-placeholder">PR</div>`}<span>${String(i+1).padStart(2,'0')}</span></div><h3>${esc(c[0])}</h3><small>${esc(c[1])}</small><button class="mini-btn" data-scroll-products>View Products →</button></article>`).join('');}
 function renderProducts(){document.getElementById('productGrid').innerHTML=products.map((p,i)=>`<article class="product-card" data-product="${p.id}" tabindex="0" role="button"><div class="product-media"><img src="${p.images[0]}" alt="${esc(p.name)}"><span>${String(i+1).padStart(2,'0')}</span></div><div class="product-body"><div class="tag">${p.tag}</div><h3>${esc(p.name)}</h3><strong class="price">${esc(p.price)}</strong><p>${esc(p.desc.slice(0,150))}…</p><div class="card-actions"><button class="btn dark" data-product="${p.id}">Full Details</button><button class="btn light" data-enquiry="${esc(p.name)}">Enquiry</button></div></div></article>`).join('');}
 function fillTopics(){const opts=topics.map(x=>`<option>${x}</option>`).join('');document.getElementById('helpType').innerHTML=opts;document.getElementById('quickHelp').innerHTML=topics.map(x=>`<button data-topic="${esc(x)}">${esc(x)}</button>`).join('');document.getElementById('aiChoices').innerHTML=topics.slice(0,10).map(x=>`<button data-topic="${esc(x)}">${esc(x)}</button>`).join('');}
+renderCategories();
+renderProducts();
+function renderRentalDetails(){
+  const el=document.getElementById('rentalDetailList');
+  if(!el)return;
+  el.innerHTML=products.map((p,i)=>`<article class="rental-detail-card" id="rental-detail-${p.id}">
+    <div class="rental-detail-photo"><img src="${p.images[0]}" alt="${esc(p.name)}"><span>${String(i+1).padStart(2,'0')}</span></div>
+    <div class="rental-detail-content">
+      <div class="tag">${p.tag}</div><h3>${esc(p.name)}</h3><strong class="rental-detail-price">${esc(p.price)}</strong>
+      <p>${esc(p.desc)}</p>
+      <div class="rental-detail-specs">${p.specs.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join('')}</div>
+      <div class="detail-actions"><button class="btn dark" data-product="${p.id}">Full Details</button><button class="btn light" data-enquiry="${esc(p.name)}">Enquiry</button></div>
+    </div>
+  </article>`).join('');
+}
+renderRentalDetails();
+fillTopics();
 function openProduct(id){const p=products.find(x=>x.id===id);if(!p)return;const body=document.getElementById('productModalBody');body.innerHTML=`<div class="detail-head"><div><span class="tag">${p.tag}</span><h2>${esc(p.name)}</h2><strong class="detail-price">${esc(p.price)}</strong></div><button class="btn dark" data-enquiry="${esc(p.name)}">Enquire Now</button></div><div class="gallery"><div class="gallery-main"><img id="mainProductImage" src="${p.images[0]}" alt="${esc(p.name)}"></div><div class="thumbs">${p.images.map((im,i)=>`<button class="thumb ${i===0?'active':''}" data-img="${im}"><img src="${im}"></button>`).join('')}</div></div><div class="spec-grid">${p.specs.map(s=>`<div><span>${esc(s[0])}</span><b>${esc(s[1])}</b></div>`).join('')}</div><div class="description"><h3>Product Description</h3><p>${esc(p.desc)}</p></div><div class="detail-actions"><button class="btn dark" data-enquiry="${esc(p.name)}">Yes, I am interested!</button><a class="btn light" href="tel:+917892123389">Call Now</a></div>`;document.getElementById('productModal').classList.add('open');}
 const productModal=document.getElementById('productModal');
 document.addEventListener('click',e=>{const p=e.target.closest('[data-product]');if(p && (p.tagName==='BUTTON' || !e.target.closest('button,a')))openProduct(p.dataset.product);const en=e.target.closest('[data-enquiry]');if(en){whatsapp(makeMessage('Product Enquiry','Website Visitor','',`I am interested in: ${en.dataset.enquiry}. Please share availability, rental/sale terms, quotation and delivery details.`));}const topic=e.target.closest('[data-topic]');if(topic){document.getElementById('helpType').value=topic.dataset.topic;document.getElementById('helpMessage').focus();document.getElementById('aiPanel').classList.remove('open');document.getElementById('helpdesk').scrollIntoView({behavior:'smooth'});}const img=e.target.closest('[data-img]');if(img){document.getElementById('mainProductImage').src=img.dataset.img;document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));img.classList.add('active');}if(e.target.matches('[data-scroll-products]'))document.getElementById('products').scrollIntoView({behavior:'smooth'});});
