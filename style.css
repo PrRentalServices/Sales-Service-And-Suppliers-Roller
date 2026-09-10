@@ -228,3 +228,13 @@ img{font-size:14px;}
 .rental-detail-specs span,.rental-detail-specs b{display:block}
 .rental-detail-specs span{font-size:11px;color:#777;margin-bottom:4px}
 @media(max-width:760px){.rental-detail-card{grid-template-columns:1fr;gap:16px}.rental-detail-photo,.rental-detail-photo img{min-height:240px;height:240px}.rental-detail-content{padding:0 5px 8px}.rental-detail-content h3{font-size:24px}.rental-detail-specs{grid-template-columns:1fr}.rental-detail-list{gap:18px}}
+/* Full details stay inside the Equipment Catalogue cards. */
+.catalogue-full-card .product-body{display:flex;flex-direction:column}
+.catalogue-full-card .product-media{overflow:hidden}
+.catalogue-photo-strip{display:flex;gap:8px;overflow-x:auto;padding:10px 0;scrollbar-width:thin}
+.catalogue-photo-strip img{width:78px;height:58px;object-fit:cover;border-radius:10px;flex:0 0 auto}
+.catalogue-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 14px}
+.catalogue-specs>div{padding:9px 10px;border:1px solid rgba(0,0,0,.1);border-radius:10px;background:rgba(255,255,255,.72)}
+.catalogue-specs span{display:block;font-size:.72rem;opacity:.65;margin-bottom:3px}
+.catalogue-specs b{display:block;font-size:.82rem}
+@media(max-width:600px){.catalogue-specs{grid-template-columns:1fr}.catalogue-photo-strip img{width:88px;height:64px}}
