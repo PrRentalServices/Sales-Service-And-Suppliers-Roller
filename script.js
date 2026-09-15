@@ -45,7 +45,7 @@ const AI_GREETING='Welcome to PR Rental Services. How are you today? How can I h
 let aiWelcomed=false;
 function openAi(){
   ai.classList.add('open'); ai.setAttribute('aria-hidden','false'); aiBtn.setAttribute('aria-expanded','true');
-  setTimeout(()=>{aiInput.focus(); if(!aiWelcomed){aiWelcomed=true; aiSpeak(AI_GREETING);}},120);
+  setTimeout(()=>{aiInput.focus(); aiWelcomed=true; aiAdd(AI_GREETING,'bot'); aiSpeak(AI_GREETING);},120);
 }
 function closeAi(){
   ai.classList.remove('open'); ai.setAttribute('aria-hidden','true'); aiBtn.setAttribute('aria-expanded','false');
@@ -188,7 +188,7 @@ renderCategories();renderProducts();fillTopics();
     strip.addEventListener('touchstart', pauseAuto, {passive:true});
     const step = () => {
       if (!down && performance.now() >= pausedUntil) {
-        strip.scrollLeft += 1.25;
+        strip.scrollLeft += 1.85;
         const half = track.scrollWidth / 2;
         if (half > 0 && strip.scrollLeft >= half) strip.scrollLeft -= half;
       }
