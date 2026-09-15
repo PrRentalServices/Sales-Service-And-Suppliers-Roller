@@ -95,3 +95,17 @@ html,body{max-width:100%;overflow-x:hidden}
   .ai-voice-row{gap:5px!important}
   .ai-lang{max-width:100px!important;padding:7px!important}
 }
+
+/* USER REQUEST — compact 3-machine hero layout */
+.hero-rollers{display:flex!important;align-items:center!important;justify-content:center!important;min-height:360px!important;position:relative!important;gap:0!important}
+.hero-machine{position:absolute!important;inset:auto!important;transform:none!important}
+.hero-machine-main{width:62%!important;height:285px!important;left:19%!important;top:18px!important;z-index:1!important}
+.hero-machine-left{width:28%!important;height:165px!important;left:0!important;bottom:8px!important;z-index:3!important}
+.hero-machine-right{width:28%!important;height:165px!important;right:0!important;bottom:8px!important;z-index:3!important}
+.language-tools{background:#05090d;border-bottom:1px solid #26323a;padding:5px 0}
+.language-tools .container{display:flex;justify-content:flex-end}
+.goog-te-gadget{font-size:11px!important;color:#fff!important}
+.goog-te-gadget select{border:1px solid #555;border-radius:8px;padding:5px 8px;background:#fff;color:#111}
+.goog-logo-link,.goog-te-gadget span{display:none!important}
+@media(max-width:760px){.hero-rollers{min-height:320px!important}.hero-machine-main{width:60%!important;height:225px!important;left:20%!important;top:8px!important}.hero-machine-left,.hero-machine-right{width:30%!important;height:125px!important;bottom:2px!important}.language-tools .container{justify-content:center}.goog-te-gadget select{max-width:190px}}
+@media(max-width:480px){.hero-rollers{min-height:275px!important}.hero-machine-main{width:60%!important;height:190px!important;left:20%!important;top:5px!important}.hero-machine-left,.hero-machine-right{width:31%!important;height:100px!important;bottom:0!important}}
