@@ -1,69 +1,11 @@
-PR RENTAL SERVICES — GITHUB PAGES UPLOAD INSTRUCTIONS
+PR RENTAL SERVICES — GITHUB UPLOAD
 
-IMPORTANT: This ZIP is already arranged for GitHub Pages.
-DO NOT upload the outer folder itself. The files inside this ZIP are the repository ROOT files.
-
-1. Open your GitHub repository:
-   https://github.com/PrRentalServices/Sales-Service-And-Suppliers-Roller/
-
-2. Open the repository's Code page.
-
-3. Delete the OLD website files/folders first if they are there, especially any old nested website folder.
-   The repository root must contain these directly:
-     index.html
-     style.css
-     script.js
-     config.js
-     services.json
-     readme.txt
-     GITHUB_UPLOAD_INSTRUCTIONS.txt
-     assets/   (folder)
-
-4. Open this ZIP on your phone/computer and upload ALL of the files/folders listed above to the repository ROOT.
-   Do not put them inside another folder.
-
-5. Make sure assets is directly beside index.html.
-   Correct:
-     /index.html
-     /style.css
-     /script.js
-     /config.js
-     /services.json
-     /assets/cc245.jpg
-     /assets/cc125-2.jpg
-     /assets/rw750d-4.jpg
-     /assets/pr-rental-services-heading.png
-     /assets/ai-assistant-lady.png
-
-   WRONG:
-     /PR_Rental_Services_COMPLETE.../index.html
-     /PR_Rental_Services_COMPLETE.../assets/...
-
-6. Commit the changes to the main branch.
-
-7. GitHub Pages:
-   Repository → Settings → Pages
-   Source: Deploy from a branch
-   Branch: main
-   Folder: / (root)
-   Save.
-
-8. Wait for the Pages deployment to finish. Then open:
-   https://prrentalservices.github.io/Sales-Service-And-Suppliers-Roller/
-
-9. If the phone shows an old version, refresh the page or open it in an incognito/private tab.
-
-WHAT IS FIXED IN THIS BUILD
-- Exact supplied golden PR RENTAL SERVICES heading image is used instead of typed heading text.
-- The heading image is normal website content, so browser/site zoom scales it with the website.
-- Front hero has CC245, RW750D and CC125 photos.
-- Photo borders are thin.
-- Images use local assets/ paths and are included in this ZIP.
-- Normal scrolling/clicking works at 100% zoom.
-- When zoomed in, the site can be dragged/panned.
-- AI button stays fixed to the screen and can be clicked with a laptop mouse.
-- AI typed questions, microphone input and spoken replies are included where the browser supports Web Speech.
-- Product cards, details, enquiry, phone, email, WhatsApp, map and payment QR are included.
-
-DO NOT MIX FILES FROM AN OLD ZIP WITH THIS BUILD.
-Upload this build as a complete replacement so old CSS/JS does not interfere.
+1. Extract this ZIP.
+2. Upload ALL files directly into the GitHub repository root.
+3. Do not upload the ZIP itself.
+4. Do not put these files inside another folder.
+5. index.html must be directly visible in the repository root.
+6. This version has the website images embedded inside the site code, so photos do not depend on a separate assets upload.
+7. Commit changes.
+8. Settings > Pages > Deploy from branch > main > /(root) > Save.
+9. Wait for GitHub Pages deployment, then hard-refresh the website.
