@@ -13,7 +13,7 @@
   "products": [
     {"name":"Forward Plate Compactor","price":"₹75,000 / Piece","basis":"Sale / Rental"},
     {"name":"Walk Behind Roller Rental Service — DYNAPAC RW 750 D","price":"₹3,500 / Day","basis":"Rental"},
-    {"name":"Single Drum Vibratory Roller Rental Service","price":"₹95,000 / Month","basis":"Rental"},
+    {"name":"Dynapac CC245 — Single Drum Vibratory Roller Rental Service","price":"₹95,000 / Month","basis":"Rental"},
     {"name":"Mini Roller Rental Services — Dynapac CC125","price":"₹70,000 / Month","basis":"Rental"},
     {"name":"3 Ton Compactor Rental Service","price":"₹90,000 / Month","basis":"Rental"},
     {"name":"Soil Compactor Road Roller Rental Service","price":"₹90,000 / Month","basis":"Rental"},
@@ -23,7 +23,7 @@
   "services": [
     "Walk Behind Roller Rental Service","Walk Behind Roller On Rent","Construction Equipment Rental Service","REDLINE WALK BEHIND ROLLER For Sale",
     "Forward Plate Compactor","Walk behind Vibrating Roller","Dynapac Walk Behind Roller","PLATE COMPACTOR FORWARD REDLINE (RV80)","Earth Rammer for sale",
-    "Baby Roller Rental Service","Reversible Plate Compactor Rental Service","Soil Compactor Road Roller Rental Service","Single Drum Vibratory Roller Rental Service","Plate Compactor Rental Service","Baby Roller Mini Roller",
+    "Baby Roller Rental Service","Reversible Plate Compactor Rental Service","Soil Compactor Road Roller Rental Service","Dynapac CC245 — Single Drum Vibratory Roller Rental Service","Plate Compactor Rental Service","Baby Roller Mini Roller",
     "Mini Roller Rental Services","3 Ton Compactor Rental Service","Steel Bending Machine","Vibratory Rammer Machine","Bar Bending Machine For Sale","Stroke Mobile Lighting Tower","Portable Light Tower","Road Roller Rental"
   ],
   "leadership": [

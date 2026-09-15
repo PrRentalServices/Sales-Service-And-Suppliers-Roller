@@ -40,47 +40,58 @@
 
 .ai-chat{max-height:220px;overflow:auto;display:flex!important;flex-direction:column;gap:8px!important;margin:10px 0 12px;padding-right:3px}.ai-msg{max-width:92%;padding:10px 12px;border-radius:13px;line-height:1.45;font-size:13px;white-space:pre-wrap}.ai-msg-bot{background:#f0f0ee;align-self:flex-start;color:#111}.ai-msg-user{background:#111;color:#fff;align-self:flex-end}.ai-input-row{display:flex;gap:7px;margin-top:8px}.ai-input-row input{flex:1;min-width:0;border:1px solid #ccc;border-radius:12px;padding:11px 12px;outline:none}.ai-input-row button{border:0!important;background:#111!important;color:#fff!important;border-radius:12px!important;width:44px;padding:0!important}.ai-voice-row{display:flex;align-items:center;gap:7px;margin:9px 0}.ai-voice-btn{border:1px solid #ccc!important;background:#fff!important;color:#111!important;padding:8px 10px!important}.ai-voice-btn.listening,.ai-voice-btn:hover{border-color:#111!important;box-shadow:0 0 0 2px #1111}.ai-voice-status{font-size:11px;color:#777}.ai-quick{max-height:90px;overflow:auto}.ai-note{line-height:1.45}.ai-panel{max-height:calc(100vh - 180px)}
 
-/* FINAL FIX — ASK AI stays pinned to the real viewport, never to the zoom/drag stage. */
-.float-ai{
-  position:fixed !important;
-  right:20px !important;
-  bottom:20px !important;
-  left:auto !important;
-  top:auto !important;
-  transform:none !important;
-  z-index:1002 !important;
-  max-width:min(310px,calc(100vw - 40px));
-  min-height:64px;
-  padding:7px 14px 7px 7px;
+/* FINAL CLEAN FIXES — built from COMPLETE_VOICE_GITHUB_REBUILD (before the AI_FIXED zip). */
+html,body{max-width:100%;overflow-x:hidden}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.hero-heading-image{margin:8px 0 22px!important;line-height:0!important;letter-spacing:0!important}
+.hero-heading-image img{display:block;width:min(100%,760px);height:auto;max-height:290px;object-fit:contain;object-position:left center}
+.hero-rollers{display:grid!important;grid-template-columns:1fr 1fr;grid-template-rows:minmax(230px,1fr) 150px;gap:12px;min-height:410px!important;position:relative}
+.hero-machine{position:relative!important;inset:auto!important;width:auto!important;height:auto!important;transform:none!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:18px!important;padding:5px!important;box-shadow:0 18px 45px rgba(0,0,0,.42)!important}
+.hero-machine-main{grid-column:1 / -1;grid-row:1}
+.hero-machine-left{grid-column:1;grid-row:2}
+.hero-machine-right{grid-column:2;grid-row:2}
+.hero-machine img{border-radius:13px!important}
+.hero-machine span{left:10px!important;bottom:9px!important;padding:7px 9px!important;border-radius:8px!important;font-size:10px!important}
+
+/* ASK AI is a real viewport-fixed control, so zoom/drag on the website can never move it. */
+.float-ai{position:fixed!important;right:18px!important;bottom:18px!important;left:auto!important;top:auto!important;transform:none!important;width:auto!important;min-width:230px!important;max-width:min(320px,calc(100vw - 36px))!important;min-height:70px!important;padding:7px 13px 7px 7px!important;z-index:9999!important;pointer-events:auto!important;touch-action:manipulation!important}
+.float-ai img{width:56px!important;height:56px!important;flex:0 0 56px!important}
+.float-ai span{display:block!important;white-space:nowrap!important}
+.ai-panel{position:fixed!important;right:18px!important;bottom:98px!important;left:auto!important;top:auto!important;width:min(390px,calc(100vw - 36px))!important;height:auto!important;max-height:min(72vh,650px)!important;z-index:9998!important;transform:none!important;display:none!important;overflow:hidden!important;pointer-events:auto!important}
+.ai-panel.open{display:flex!important;flex-direction:column!important}
+.ai-head{flex:0 0 auto!important}
+.ai-body{padding:14px!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important}
+.ai-chat{max-height:260px!important;min-height:55px!important;overflow-y:auto!important}
+.ai-input-row{position:sticky;bottom:0;background:#fff;padding-top:4px;z-index:2}
+.ai-voice-row{flex-wrap:wrap!important}
+.ai-lang{border:1px solid #ccc;border-radius:10px;padding:8px 9px;background:#fff;color:#111;max-width:110px}
+.zoombar{position:fixed!important;left:16px!important;right:auto!important;bottom:16px!important;z-index:9997!important;transform:none!important}
+
+@media(max-width:760px){
+  .hero-heading-image img{width:100%;max-height:190px;object-position:center}
+  .hero-rollers{grid-template-rows:minmax(200px,1fr) 125px;min-height:340px!important;gap:9px}
+  .hero-machine{border-width:1px!important;border-radius:14px!important;padding:4px!important}
+  .hero-machine img{border-radius:10px!important}
+  .hero-machine span{font-size:9px!important;left:7px!important;bottom:7px!important;padding:6px 7px!important}
+  .float-ai{right:10px!important;bottom:10px!important;min-width:0!important;max-width:calc(100vw - 20px)!important;min-height:62px!important;border-radius:17px!important}
+  .float-ai img{width:48px!important;height:48px!important;flex-basis:48px!important}
+  .float-ai span{font-size:11px!important;letter-spacing:.7px!important}
+  .ai-panel{right:10px!important;bottom:82px!important;width:calc(100vw - 20px)!important;max-height:calc(100vh - 100px)!important;border-radius:18px!important}
+  .ai-body{padding:12px!important}
+  .ai-chat{max-height:220px!important}
+  .zoombar{left:10px!important;bottom:10px!important}
 }
-.float-ai img{width:52px;height:52px;flex:0 0 52px}
-.float-ai span{white-space:nowrap}
-.ai-panel{
-  position:fixed !important;
-  right:20px !important;
-  bottom:96px !important;
-  left:auto !important;
-  top:auto !important;
-  transform:none !important;
-  z-index:1001 !important;
-  width:min(390px,calc(100vw - 40px)) !important;
-  max-height:min(680px,calc(100vh - 120px)) !important;
-  overflow:hidden !important;
-}
-.ai-body{max-height:calc(min(680px,100vh - 120px) - 70px);overflow-y:auto;overscroll-behavior:contain}
-.zoombar{
-  position:fixed !important;
-  left:20px !important;
-  right:auto !important;
-  bottom:20px !important;
-  z-index:1000 !important;
-}
-@media (max-width:700px){
-  .float-ai{right:12px !important;bottom:12px !important;max-width:calc(100vw - 24px);min-height:58px}
-  .float-ai img{width:46px;height:46px;flex-basis:46px}
-  .float-ai span{font-size:13px}
-  .ai-panel{right:12px !important;bottom:82px !important;width:calc(100vw - 24px) !important;max-height:calc(100vh - 100px) !important}
-  .ai-body{max-height:calc(100vh - 170px)}
-  .zoombar{left:12px !important;bottom:12px !important}
-  .zoombar span:last-child{display:none}
+@media(max-width:480px){
+  .hero-heading-image img{max-height:155px}
+  .hero-rollers{grid-template-rows:180px 105px;min-height:294px!important}
+  .float-ai{right:10px!important;bottom:10px!important;border-radius:16px!important;padding:5px 9px 5px 5px!important}
+  .float-ai img{width:46px!important;height:46px!important;flex-basis:46px!important;border-radius:12px!important}
+  .float-ai span{position:static!important;width:auto!important;height:auto!important;clip:auto!important;overflow:visible!important;white-space:nowrap!important;font-size:10px!important}
+  .ai-panel{bottom:70px!important;max-height:calc(100vh - 82px)!important}
+  .ai-head img{width:38px!important;height:38px!important}
+  .ai-head{padding:9px!important}
+  .ai-body{padding:10px!important}
+  .ai-input-row input{padding:10px!important}
+  .ai-voice-row{gap:5px!important}
+  .ai-lang{max-width:100px!important;padding:7px!important}
 }

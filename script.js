@@ -6,7 +6,7 @@ const categories=[
 const products=[
  {id:"forward",name:"Forward Plate Compactor",price:"₹75,000 / Piece",images:["assets/forward-plate-1.jpg","assets/forward-plate-2.jpg","assets/forward-plate-3.jpg","assets/forward-plate-4.jpg"],specs:[["Plate Size","400×500 mm"],["Operating Weight","100–120 kg"],["Centrifugal Force","15–20 kN"],["Engine Type","Diesel Engine"],["Compaction Depth","250 mm"],["Application","Paver Block, Landscaping, Industrial Floor, Soil Compaction, Trench Work, GSB Layer"],["Starting System","Recoil Start"],["Plate Material","Cast Steel"],["Travel Speed","0–20 m/min"],["Engine","Greaves 5 HP"]],desc:"A Forward Plate Compactor is a powerful and efficient construction machine designed for compacting soil, sand, gravel, asphalt, and paving materials. Its compact design, easy maneuverability and robust vibration system make it suitable for construction, landscaping, roadwork and infrastructure projects.",tag:"SALE / RENTAL"},
  {id:"rw750d",name:"Walk Behind Roller Rental Service — DYNAPAC RW 750 D",price:"₹3,500 / Day",images:["assets/rw750d-1.webp","assets/rw750d-2.webp","assets/rw750d-3.webp","assets/rw750d-4.jpg","assets/rw750d-5.png","assets/rw750d-6.jpeg"],specs:[["Roller Type","Tandem Roller"],["Operating Weight","750 kg (listing also states 5 Ton; confirm before quotation)"],["Drum Width","600–650 mm (listing contains both values)"],["Power / Fuel","Diesel"],["Rental Basis","Per Day"],["Operator","Without Operator"],["Brand","Dynapac"],["Application","Parking, Compaction, Canal Work, Road Work"],["Location","Karnataka"],["Features","Auto parking brake, keyless entry system"]],desc:"Redline Walk Behind Roller RW 750 D for rental applications. The supplied listing mentions 750 kg and a 600–650 mm drum width, while another listing line contains conflicting figures; PR Rental Services can confirm the exact machine specification before quotation.",tag:"RENTAL"},
- {id:"vib10",name:"Single Drum Vibratory Roller Rental Service",price:"₹95,000 / Month",images:["assets/soil-roller-1.jpg"],specs:[["Roller Type","Vibratory Roller"],["Operating Weight","10 Ton"],["Drum Width","2000 mm"],["Power Source","Diesel"],["Rental Basis","Per Month"],["Operator","With Operator"]],desc:"10-ton soil compactor / vibratory roller available on monthly rental basis. Suitable for heavy compaction work and road construction requirements.",tag:"RENTAL"},
+ {id:"vib10",name:"Dynapac CC245 — Single Drum Vibratory Roller Rental Service",price:"₹95,000 / Month",images:["assets/cc245.jpg"],specs:[["Roller Type","Vibratory Roller"],["Operating Weight","10 Ton"],["Drum Width","2000 mm"],["Power Source","Diesel"],["Rental Basis","Per Month"],["Operator","With Operator"]],desc:"10-ton soil compactor / vibratory roller available on monthly rental basis. Suitable for heavy compaction work and road construction requirements.",tag:"RENTAL"},
  {id:"mini",name:"Mini Roller Rental Services — Dynapac CC125",price:"₹70,000 / Month",images:["assets/cc125-2.jpg","assets/cc125-3.jpg"],specs:[["Roller Type","Tandem Roller"],["Operating Weight","3 Ton"],["Drum Width","1200 mm"],["Power Source","Diesel"],["Fuel Type","Diesel"],["Rental Basis","Per Month"],["Operator","With Operator"]],desc:"Dynapac CC125 mini / baby roller available on rental basis. Supplied description highlights best-in-class compaction, auto water sprinkling and auto vibration.",tag:"RENTAL"},
  {id:"comp3",name:"3 Ton Compactor Rental Service",price:"₹90,000 / Month",images:["assets/compactor-3t-1.jpg","assets/compactor-3t-2.jpg"],specs:[["Compactor Type","All"],["Operating Weight","All"],["Drum Width","All"],["Fuel Type","As per requirement"],["Rental Basis","As per discussion"],["Operator","With Operator"],["Application","Building, Road Work, Pavement, Canal Work"],["Location","Karnataka, Telangana, Tamil Nadu, Pan India"]],desc:"Heavy-duty compaction performance, suitable for medium-scale projects, with efficient fuel consumption and easy-to-operate controls.",tag:"RENTAL"},
  {id:"soil",name:"Soil Compactor Road Roller Rental Service",price:"₹90,000 / Month",images:["assets/soil-roller-1.jpg","assets/soil-roller-2.png"],specs:[["Machine Type","Ride On"],["Operating Weight","12 Ton"],["Fuel Type","Diesel"],["Roller Type","Single Drum"],["Vibration Force","35 kN"],["Engine Power","100 HP"],["Drum Width","2000 mm"],["Service Location","All over Bangalore and nearby Karnataka"]],desc:"Powerful soil compaction capability, suitable for heavy-duty work, smooth operation and control, and ideal for road construction projects.",tag:"RENTAL"},
@@ -29,71 +29,99 @@ const qrModal=document.getElementById('qrModal');document.getElementById('showQr
 document.getElementById('readMore').onclick=()=>{document.getElementById('moreAbout').classList.toggle('open');document.getElementById('readMore').textContent=document.getElementById('moreAbout').classList.contains('open')?'− Read Less':'+ Read More';};
 const helpMsg=document.getElementById('helpMessage');helpMsg.addEventListener('input',()=>setCount(helpMsg,document.getElementById('wordCount')));document.getElementById('helpForm').addEventListener('submit',e=>{e.preventDefault();if(words(helpMsg.value)>500)return;whatsapp(makeMessage(document.getElementById('helpType').value,document.getElementById('helpName').value,document.getElementById('helpPhone').value,helpMsg.value));});document.getElementById('emailHelp').onclick=()=>{const subject=`PR Rental Services – ${document.getElementById('helpType').value}`;location.href=`mailto:${C.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(makeMessage(document.getElementById('helpType').value,document.getElementById('helpName').value,document.getElementById('helpPhone').value,helpMsg.value))}`;};
 const reqMsg=document.getElementById('reqMessage');reqMsg.addEventListener('input',()=>setCount(reqMsg,document.getElementById('reqCount')));document.getElementById('requirementForm').addEventListener('submit',e=>{e.preventDefault();if(words(reqMsg.value)>500)return;whatsapp(makeMessage('Submit Requirement',document.getElementById('reqName').value,document.getElementById('reqPhone').value,reqMsg.value));});
-const ai=document.getElementById('aiPanel');document.getElementById('aiBtn').onclick=()=>ai.classList.toggle('open');document.getElementById('aiClose').onclick=()=>ai.classList.remove('open');
-
-// ASK AI – PR RENTAL: browser-native voice assistant with the website's stored knowledge.
+const ai=document.getElementById('aiPanel');
+const aiBtn=document.getElementById('aiBtn');
+const aiClose=document.getElementById('aiClose');
 const aiInput=document.getElementById('aiInput');
 const aiChat=document.getElementById('aiChat');
 const aiSend=document.getElementById('aiSend');
 const aiMic=document.getElementById('aiMic');
 const aiStop=document.getElementById('aiStop');
+const aiLang=document.getElementById('aiLang');
 const aiVoiceStatus=document.getElementById('aiVoiceStatus');
 let recognition=null, speaking=false;
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+function openAi(){
+  ai.classList.add('open'); ai.setAttribute('aria-hidden','false'); aiBtn.setAttribute('aria-expanded','true');
+  setTimeout(()=>aiInput.focus(),80);
+}
+function closeAi(){
+  ai.classList.remove('open'); ai.setAttribute('aria-hidden','true'); aiBtn.setAttribute('aria-expanded','false');
+  if(recognition){try{recognition.stop();}catch(e){}}
+}
+aiBtn.addEventListener('click',()=>ai.classList.contains('open')?closeAi():openAi());
+aiClose.addEventListener('click',closeAi);
+
+if(document.addEventListener) document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ai.classList.contains('open'))closeAi();});
 
 function aiAdd(text, who='bot'){
   const el=document.createElement('div'); el.className='ai-msg '+(who==='user'?'ai-msg-user':'ai-msg-bot'); el.textContent=text; aiChat.appendChild(el); aiChat.scrollTop=aiChat.scrollHeight;
 }
 function aiSpeak(text){
-  if(!('speechSynthesis' in window)) { aiVoiceStatus.textContent='Voice playback is not supported'; return; }
-  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-IN'; u.rate=.96; u.pitch=1;
-  const voices=speechSynthesis.getVoices(); const v=voices.find(x=>/^en-IN/i.test(x.lang))||voices.find(x=>/^en/i.test(x.lang)); if(v) u.voice=v;
-  u.onstart=()=>{speaking=true;aiVoiceStatus.textContent='Speaking…'}; u.onend=()=>{speaking=false;aiVoiceStatus.textContent='Voice ready'}; u.onerror=()=>{speaking=false;aiVoiceStatus.textContent='Voice playback unavailable'}; speechSynthesis.speak(u);
+  if(!('speechSynthesis' in window)){aiVoiceStatus.textContent='Voice playback is not supported';return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=aiLang.value||'en-IN'; u.rate=.94; u.pitch=1; u.volume=1;
+  const voices=speechSynthesis.getVoices();
+  const wanted=u.lang.toLowerCase();
+  const v=voices.find(x=>x.lang&&x.lang.toLowerCase()===wanted)||voices.find(x=>x.lang&&x.lang.toLowerCase().startsWith(wanted.slice(0,2)))||voices.find(x=>/^en/i.test(x.lang));
+  if(v)u.voice=v;
+  u.onstart=()=>{speaking=true;aiVoiceStatus.textContent='Speaking…'};
+  u.onend=()=>{speaking=false;aiVoiceStatus.textContent='Voice ready'};
+  u.onerror=()=>{speaking=false;aiVoiceStatus.textContent='Voice playback unavailable'};
+  speechSynthesis.speak(u);
 }
 function aiProductAnswer(q){
   const s=q.toLowerCase();
   const aliases=[
     ['rw750d',['rw750d','rw 750','walk behind','redline','walk-behind']],
     ['mini',['cc125','cc 125','mini roller','baby roller','baby roller mini']],
-    ['vib10',['10 ton','10-ton','single drum vibratory']],
+    ['vib10',['cc245','cc 245','10 ton','10-ton','single drum vibratory','vibratory roller']],
     ['soil',['12 ton','12-ton','soil compactor','road roller']],
     ['plate',['plate compactor','forward plate','rv80']],
-    ['compactor3',['3 ton','3-ton compactor']],
+    ['comp3',['3 ton','3-ton compactor']],
     ['steel',['steel bending','bar bending','rebar']],
     ['rammer',['rammer','earth rammer','vibratory rammer']]
   ];
-  for(const [id,keys] of aliases){ if(keys.some(k=>s.includes(k))){ const p=products.find(x=>x.id===id); if(!p) continue; return `${p.name}. Price: ${p.price}. ${p.desc} ${p.specs.map(x=>x[0]+': '+x[1]).join('. ')}.`; }}
+  for(const [id,keys] of aliases){
+    if(keys.some(k=>s.includes(k))){const p=products.find(x=>x.id===id);if(!p)continue;return `${p.name}. Price: ${p.price}. ${p.desc} ${p.specs.map(x=>x[0]+': '+x[1]).join('. ')}.`;}
+  }
   return null;
 }
 function aiAnswer(q){
-  const s=q.toLowerCase().trim(); if(!s) return 'Please ask me a question about PR Rental Services.';
-  const p=aiProductAnswer(s); if(p) return p;
-  if(/price|rate|cost|rent|rental|how much/.test(s)){ return products.map(x=>`${x.name}: ${x.price}`).join('. ')+'.'; }
-  if(/phone|mobile|call|contact number|number/.test(s)) return 'You can call PR Rental Services on 7892123389 or 9980615715. Both numbers are available from the website contact buttons.';
-  if(/whatsapp|whats app/.test(s)) return 'You can contact PR Rental Services on WhatsApp using the WhatsApp button on the website. It opens WhatsApp directly.';
-  if(/email|mail/.test(s)) return 'The PR Rental Services email is sales.prrentals25@gmail.com. Tap the email button to open your email app.';
-  if(/address|location|where|map|office/.test(s)) return 'The office address is Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094. Tap Address or Get Directions to open the map.';
+  const s=q.toLowerCase().trim(); if(!s)return 'Please ask me a question about PR Rental Services.';
+  const p=aiProductAnswer(s); if(p)return p;
+  const hindi=/[\u0900-\u097F]/.test(q);
+  if(/price|rate|cost|rent|rental|how much|कितना|किराया|रेट|कीमत/.test(s)) return hindi?'PR Rental Services ke current listed rates: Forward Plate Compactor ₹75,000 per piece; RW750D ₹3,500 per day; Dynapac CC245 ₹95,000 per month; Dynapac CC125 ₹70,000 per month; 3 Ton Compactor ₹90,000 per month; Soil Compactor Road Roller ₹90,000 per month; Vibratory Rammer ₹70,000 per piece; Steel Bending Machine ₹1,10,000 per piece.':'Current listed PR Rental Services rates are: Forward Plate Compactor ₹75,000 per piece; RW750D ₹3,500 per day; Dynapac CC245 ₹95,000 per month; Dynapac CC125 ₹70,000 per month; 3 Ton Compactor ₹90,000 per month; Soil Compactor Road Roller ₹90,000 per month; Vibratory Rammer ₹70,000 per piece; Steel Bending Machine ₹1,10,000 per piece.';
+  if(/phone|mobile|call|contact number|number|फोन|मोबाइल|नंबर/.test(s)) return hindi?'PR Rental Services ke phone numbers 7892123389 aur 9980615715 hain. Website par Call buttons se seedha dialer khulega.':'You can call PR Rental Services on 7892123389 or 9980615715. The website Call buttons open the phone dialer.';
+  if(/whatsapp|whats app|व्हाट्स/.test(s)) return hindi?'WhatsApp button se PR Rental Services ko direct WhatsApp message bhej sakte hain.':'Use the WhatsApp button to open a direct WhatsApp chat with PR Rental Services.';
+  if(/email|mail|ईमेल/.test(s)) return hindi?'Email: sales.prrentals25@gmail.com. Email button se mail app khul jayega.':'The PR Rental Services email is sales.prrentals25@gmail.com. Tap the email button to open your email app.';
+  if(/address|location|where|map|office|पता|कहां|लोकेशन/.test(s)) return hindi?'Office address: Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094. Address ya Get Directions dabakar map khol sakte hain.':'The office address is Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094. Tap Address or Get Directions to open the map.';
   if(/gst|gstin|tax/.test(s)) return 'The GSTIN is 29BFVPP3412E1Z6.';
-  if(/upi|payment|pay|qr|transaction|utr/.test(s)) return 'PR Rental Services supports UPI payment. The website has a payment QR and a direct UPI button. After payment, submit the UTR or payment screenshot through the Helpdesk.';
-  if(/service|services|offer|available/.test(s)) return 'PR Rental Services offers Walk Behind Roller Rental Service, Walk Behind Roller On Rent, Construction Equipment Rental Service, REDLINE Walk Behind Roller for Sale, Forward Plate Compactor, Walk Behind Vibrating Roller, Dynapac Walk Behind Roller, Plate Compactor Forward Redline RV80, Earth Rammer, Baby Roller Rental, Reversible Plate Compactor Rental, Soil Compactor Road Roller Rental, Single Drum Vibratory Roller Rental, Plate Compactor Rental, Mini Roller, 3 Ton Compactor, Steel Bending Machine, Vibratory Rammer, Bar Bending Machine, Mobile Light Tower and Road Roller Rental.';
-  if(/about|company|business|established|owner|chairman|ceo|leadership/.test(s)) return 'PR Rental Services was established in 2025 and operates as a service provider and proprietorship. Praveen Polepalli is Chairman and Proprietor. Pratibha Polepalli is CEO.';
-  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent/.test(s)) return 'The Helpdesk supports Sales Enquiry, Machine Rental, Machine Availability, Rental or Booking Request, Quotation Request, Service and Repair, Supplier Enquiry, Supplier Registration, Payment or Transaction Issue, Invoice or GST, Payment Screenshot or UTR, General Enquiry, Complaint, Urgent Support and Other Help.';
-  if(/why|reliable|support|quality/.test(s)) return 'PR Rental Services focuses on timely and reliable service, affordable rental plans, a wide range of rental options, customer-focused support, trained staff, flexible rental terms, 24x7 support and trusted client relationships.';
-  return 'I can help with PR Rental Services products, roller specifications, prices, rental options, services, availability enquiries, quotation requests, service and repair, payment, GSTIN, contact numbers, WhatsApp, email, address and Helpdesk. Please ask your question.';
+  if(/upi|payment|pay|qr|transaction|utr|भुगतान|पेमेंट|क्यूआर/.test(s)) return hindi?'PR Rental Services ke liye payment QR aur direct UPI button website par hai. Payment ke baad UTR ya screenshot Helpdesk se submit kar sakte hain.':'PR Rental Services has a payment QR and a direct UPI button on the website. After payment, submit the UTR or payment screenshot through Helpdesk.';
+  if(/service|services|offer|available|सेवा|सर्विस/.test(s)) return hindi?'PR Rental Services roller rental, sales aur construction equipment services deta hai, including RW750D, Dynapac CC125, Dynapac CC245, plate compactor, soil compactor road roller, vibratory rammer, steel bending machine aur related rental/support services.':'PR Rental Services offers roller rental, sales and construction equipment services, including RW750D, Dynapac CC125, Dynapac CC245, plate compactor, soil compactor road roller, vibratory rammer, steel bending machine and related rental/support services.';
+  if(/about|company|business|established|owner|chairman|ceo|leadership|कंपनी|चेयरमैन|सीईओ/.test(s)) return hindi?'PR Rental Services 2025 mein established hua. Business proprietorship hai. Praveen Polepalli Chairman aur Proprietor hain. Pratibha Polepalli CEO hain.':'PR Rental Services was established in 2025. The business is a proprietorship. Praveen Polepalli is Chairman and Proprietor. Pratibha Polepalli is CEO.';
+  if(/help|helpdesk|complaint|quotation|supplier|booking|availability|repair|urgent|मदद|शिकायत|बुकिंग/.test(s)) return hindi?'Helpdesk mein Sales Enquiry, Machine Rental, Machine Availability, Booking Request, Quotation, Service & Repair, Supplier Enquiry, Payment/Transaction, Invoice/GST, UTR, General Enquiry, Complaint aur Urgent Support options hain.':'The Helpdesk supports Sales Enquiry, Machine Rental, Machine Availability, Booking Request, Quotation, Service & Repair, Supplier Enquiry, Payment or Transaction, Invoice/GST, UTR, General Enquiry, Complaint and Urgent Support.';
+  if(/why|reliable|support|quality|क्यों|सपोर्ट/.test(s)) return 'PR Rental Services focuses on timely and reliable service, affordable rental plans, a wide range of options, customer-focused support, trained staff, flexible rental terms, 24x7 support and trusted client relationships.';
+  return hindi?'Main PR Rental Services ke products, rollers, specifications, prices, rental options, services, contact, address, payment, GSTIN aur Helpdesk ke baare mein jawab de sakta hoon. Aap apna sawal bolkar ya type karke pooch sakte hain.':'I can help with PR Rental Services products, roller specifications, prices, rental options, services, contact details, address, payment, GSTIN and Helpdesk. You can type your question or press Speak and ask by voice.';
 }
-function aiAsk(q){ const text=q.trim(); if(!text)return; aiAdd(text,'user'); const ans=aiAnswer(text); aiAdd(ans,'bot'); aiSpeak(ans); }
+function aiAsk(q){const text=q.trim();if(!text)return;aiAdd(text,'user');const ans=aiAnswer(text);aiAdd(ans,'bot');aiSpeak(ans);}
 aiSend.onclick=()=>{aiAsk(aiInput.value);aiInput.value='';aiInput.focus();};
 aiInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();aiSend.click();}});
-aiStop.onclick=()=>{if('speechSynthesis' in window)speechSynthesis.cancel();if(recognition)recognition.stop();aiVoiceStatus.textContent='Voice stopped';};
-if(SpeechRecognition){
-  recognition=new SpeechRecognition(); recognition.lang='en-IN'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=1;
+aiStop.onclick=()=>{if('speechSynthesis'in window)speechSynthesis.cancel();if(recognition){try{recognition.stop();}catch(e){}}aiVoiceStatus.textContent='Voice stopped';};
+function setupRecognition(){
+  if(!SpeechRecognition){aiMic.disabled=true;aiVoiceStatus.textContent='Speech input not supported in this browser';return;}
+  recognition=new SpeechRecognition(); recognition.lang=aiLang.value||'en-IN'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=2;
   recognition.onstart=()=>{aiVoiceStatus.textContent='Listening…';aiMic.classList.add('listening');};
   recognition.onend=()=>{aiMic.classList.remove('listening');if(aiVoiceStatus.textContent==='Listening…')aiVoiceStatus.textContent='Voice ready';};
-  recognition.onerror=()=>{aiMic.classList.remove('listening');aiVoiceStatus.textContent='Could not hear. Try again.';};
+  recognition.onerror=e=>{aiMic.classList.remove('listening');aiVoiceStatus.textContent=e.error==='not-allowed'?'Microphone permission denied':'Could not hear. Try again.';};
   recognition.onresult=e=>{const text=e.results[0][0].transcript;aiInput.value=text;aiAsk(text);aiInput.value='';};
-  aiMic.onclick=()=>{try{speechSynthesis.cancel();recognition.start();}catch(err){aiVoiceStatus.textContent='Microphone is already active';}};
-}else{ aiMic.disabled=true; aiVoiceStatus.textContent='Speech input not supported in this browser'; }
-if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>{};
+}
+setupRecognition();
+aiLang.addEventListener('change',()=>{if(recognition)recognition.lang=aiLang.value;});
+aiMic.onclick=()=>{if(!SpeechRecognition){aiVoiceStatus.textContent='Speech input not supported in this browser';return;}openAi();try{speechSynthesis.cancel();recognition.lang=aiLang.value||'en-IN';recognition.start();}catch(err){aiVoiceStatus.textContent='Microphone is already active';}};
+if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>{};
 
 document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
 // Zoom + drag/pan stage
