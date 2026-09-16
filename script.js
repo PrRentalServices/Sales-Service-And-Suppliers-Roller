@@ -200,10 +200,10 @@ renderCategories();renderProducts();fillTopics();
     });
     let pausedUntil = 0;
     let lastFrame = performance.now();
-    // Target speed: 4px/frame at ~60fps = ~240 CSS px/sec (about half of the earlier speed, slightly higher).
+    // Target speed: 2px/frame at ~60fps = ~120 CSS px/sec (slower, comfortable viewing speed).
     // Use elapsed-time movement so Firefox/Edge keep the same real-world speed
     // even when their animation frame rate differs.
-    const GALLERY_SPEED_PX_PER_SEC = 240;
+    const GALLERY_SPEED_PX_PER_SEC = 120;
     const pauseAuto = () => { pausedUntil = performance.now() + 1800; lastFrame = performance.now(); };
     strip.addEventListener('pointerdown', pauseAuto);
     strip.addEventListener('wheel', pauseAuto, {passive:true});
@@ -228,4 +228,4 @@ const mapUrl='https://www.google.com/maps/dir/?api=1&destination=13.048028,77.57
 const addressCard=document.querySelector('.address-card'); if(addressCard){addressCard.setAttribute('role','link');addressCard.setAttribute('tabindex','0');addressCard.addEventListener('click',e=>{if(!e.target.closest('a')) window.open(mapUrl,'_blank');});addressCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(mapUrl,'_blank');}});}
 
 // FINAL IMAGE/UX OVERRIDES
-window.PR_GALLERY_SPEED = 240; // CSS pixels per second; frame-rate independent
+window.PR_GALLERY_SPEED = 120; // CSS pixels per second; frame-rate independent
