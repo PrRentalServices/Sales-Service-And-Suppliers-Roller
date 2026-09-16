@@ -46,9 +46,11 @@ let recognition=null, speaking=false;
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
 const AI_GREETING='Welcome to PR Rental Services. How are you today? How can I help you?';
+function ensureAiGreeting(){const msgs=aiChat.querySelectorAll('.ai-msg-bot'); if(!msgs.length){aiAdd(AI_GREETING,'bot');} else if(msgs.length>1){for(let i=1;i<msgs.length;i++)msgs[i].remove();}}
 function openAi(){
+  ensureAiGreeting();
   ai.classList.add('open'); ai.setAttribute('aria-hidden','false'); aiBtn.setAttribute('aria-expanded','true');
-  setTimeout(()=>{aiInput.focus(); aiSpeak(AI_GREETING);},120);
+  setTimeout(()=>{aiInput.focus();},120);
 }
 function closeAi(){
   ai.classList.remove('open'); ai.setAttribute('aria-hidden','true'); aiBtn.setAttribute('aria-expanded','false');
@@ -147,8 +149,19 @@ document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').cl
 // Zoom + drag/pan stage
 const vp=document.getElementById('zoomViewport'),stage=document.getElementById('siteStage');
 let scale=1;
+const supportsCssZoom = !!(window.CSS && CSS.supports && CSS.supports('zoom','1'));
 function apply(){
-  stage.style.zoom=scale;
+  if(supportsCssZoom){
+    stage.style.zoom=scale;
+    stage.style.transform='';
+    vp.style.minHeight='';
+  }else{
+    stage.style.zoom='';
+    stage.style.transform='scale('+scale+')';
+    stage.style.transformOrigin='0 0';
+    vp.style.minHeight=(stage.scrollHeight*scale)+'px';
+  }
+  document.documentElement.style.setProperty('--contact-icon-scale',scale);
   document.getElementById('zoomLevel').textContent=Math.round(scale*100)+'%';
 }
 function zoomTo(next){scale=Math.max(0.75,Math.min(3,next));apply();}
@@ -192,7 +205,7 @@ renderCategories();renderProducts();fillTopics();
     strip.addEventListener('touchstart', pauseAuto, {passive:true});
     const step = () => {
       if (!down && performance.now() >= pausedUntil) {
-        strip.scrollLeft += 6.00;
+        strip.scrollLeft += 12.00;
         const half = track.scrollWidth / 2;
         if (half > 0 && strip.scrollLeft >= half) strip.scrollLeft -= half;
       }
@@ -204,8 +217,8 @@ renderCategories();renderProducts();fillTopics();
 
 // Touch-friendly cards and address map.
 document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const el=e.target.closest('[data-product]');if(el){e.preventDefault();openProduct(el.dataset.product);}}});
-const mapUrl='https://www.google.com/maps/search/?api=1&query=13.048028,77.577618';
+const mapUrl='https://www.google.com/maps/dir/?api=1&destination=13.048028,77.577618';
 const addressCard=document.querySelector('.address-card'); if(addressCard){addressCard.setAttribute('role','link');addressCard.setAttribute('tabindex','0');addressCard.addEventListener('click',e=>{if(!e.target.closest('a')) window.open(mapUrl,'_blank');});addressCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(mapUrl,'_blank');}});}
 
 // FINAL IMAGE/UX OVERRIDES
-window.PR_GALLERY_SPEED = 6.0;
+window.PR_GALLERY_SPEED = 12.0;

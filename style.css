@@ -129,3 +129,84 @@ body{font-size:17px}
 #album .section-head,.infra .section-head,.leadership .section-head{margin-bottom:22px!important}
 @media(max-width:760px){body{font-size:16.5px}.hero-machine span{font-size:9px!important;padding:5px 6px!important;margin-top:3px!important}.contact-cards a{padding-left:50px!important}.contact-cards a>.contact-icon{left:13px;top:16px}}
 @media(max-width:480px){body{font-size:16px}.hero-machine span{font-size:8px!important}.contact-cards a{padding-left:48px!important}}
+
+/* CROSS-BROWSER FIX — keep layout and icon sizing consistent in Chrome, Firefox and Edge */
+.topbar img,.contact-icon img,.top-icon{display:block;max-width:none;object-fit:contain;flex:none}
+.topbar .top-icon{width:18px!important;height:18px!important}
+.contact-icon{width:34px!important;height:34px!important;padding:0!important;background:transparent!important;border:0!important;overflow:hidden!important}
+.contact-icon img{width:34px!important;height:34px!important}
+.contact-cards a>.contact-icon{left:14px!important;top:17px!important}
+.contact-cards a{padding-left:56px!important;display:block!important}
+.address-link{display:block!important}
+.address-link .contact-icon{display:inline-flex!important;vertical-align:middle!important;margin-right:8px!important}
+.address-card .btn .contact-icon{position:static!important}
+
+/* Firefox can calculate intrinsic image dimensions differently; explicit dimensions prevent oversized logos. */
+.brand{min-width:280px!important;height:56px!important;flex:0 0 auto!important}
+.brand img{width:55px!important;height:55px!important;max-width:55px!important;max-height:55px!important;min-width:55px!important;min-height:55px!important;object-fit:contain!important;flex:0 0 55px!important}
+.hero-heading-image{height:auto!important;min-height:0!important;margin:8px 0 22px!important;overflow:visible!important}
+.hero-heading-image img{display:block!important;width:min(100%,760px)!important;height:auto!important;max-width:100%!important;max-height:290px!important;min-width:0!important;object-fit:contain!important}
+
+/* Hero roller captions stay below the photo, never over the machine. */
+.hero-machine{display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;align-items:stretch!important;overflow:hidden!important}
+.hero-machine img{display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:100%!important;object-fit:contain!important;align-self:stretch!important}
+.hero-machine span{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;width:100%!important;margin:5px 0 0!important;min-height:27px!important;background:rgba(5,9,13,.08)!important;color:#4b5156!important;border-radius:7px!important;padding:5px 7px!important;font-size:10px!important;line-height:1.15!important;font-weight:800!important;letter-spacing:.6px!important;text-align:center!important;display:flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+
+/* Exact compact spacing for Album / Workspace / Leadership in every browser. */
+#album.section,#album + .infra,.leadership.section{padding-top:24px!important;padding-bottom:24px!important}
+#album .section-head,.infra .section-head,.leadership .section-head{margin-top:0!important;margin-bottom:14px!important}
+#album .section-head h2,.infra .section-head h2,.leadership .section-head h2{margin-top:6px!important;margin-bottom:8px!important}
+#album .section-head p,.infra .section-head p,.leadership .section-head p{margin-top:0!important;margin-bottom:0!important}
+
+/* Stable gallery scrolling across Firefox/Chrome/Edge. */
+.photo-strip{scroll-behavior:auto!important;overscroll-behavior-x:contain!important;scrollbar-gutter:stable!important}
+.photo-track{display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important}
+.photo-track figure{flex:0 0 auto!important}
+
+/* Keep website text comfortably readable without relying on browser-specific font scaling. */
+body{font-size:17px!important;-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important}
+@media(max-width:760px){body{font-size:16.5px!important}.brand{height:50px!important}.brand img{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;flex-basis:48px!important}.hero-machine span{font-size:9px!important;min-height:24px!important;margin-top:4px!important}.contact-cards a{padding-left:52px!important}.contact-cards a>.contact-icon{left:12px!important;top:15px!important}}
+@media(max-width:480px){body{font-size:16px!important}.brand img{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;flex-basis:44px!important}.hero-machine span{font-size:8.5px!important;min-height:22px!important}.topbar .top-icon{width:16px!important;height:16px!important}.contact-icon,.contact-icon img{width:32px!important;height:32px!important}}
+
+/* FINAL CROSS-BROWSER HARDENING: Chrome / Firefox / Edge */
+html,body{margin:0;padding:0;width:100%;min-width:0}
+*,*::before,*::after{box-sizing:border-box}
+.brand{width:auto;max-width:100%;min-width:0!important;height:56px!important;align-items:center!important;overflow:hidden}
+.brand img{display:block!important;width:55px!important;height:55px!important;min-width:55px!important;min-height:55px!important;max-width:55px!important;max-height:55px!important;object-fit:contain!important;object-position:center!important}
+.hero-machine{display:grid!important;grid-template-rows:minmax(0,1fr) 27px!important;overflow:hidden!important}
+.hero-machine img{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important}
+.hero-machine span{position:static!important;box-sizing:border-box!important;width:100%!important;height:27px!important;min-height:27px!important;max-height:27px!important;margin:0!important;padding:4px 6px!important;background:rgba(5,9,13,.07)!important;color:#555!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;line-height:1.1!important;font-size:10px!important}
+.contact-cards a{display:block!important;position:relative!important;padding:18px 18px 18px 56px!important;min-height:72px!important}
+.contact-cards a>.contact-icon{position:absolute!important;left:14px!important;top:18px!important;margin:0!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;max-width:34px!important;max-height:34px!important;display:block!important}
+.contact-icon img{display:block!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;max-width:34px!important;max-height:34px!important;object-fit:contain!important}
+.topbar .top-icon{display:block!important;width:18px!important;height:18px!important;min-width:18px!important;min-height:18px!important;max-width:18px!important;max-height:18px!important;object-fit:contain!important}
+.address-link{display:block!important;line-height:1.7!important}
+.address-link .contact-icon{display:inline-block!important;vertical-align:middle!important;width:34px!important;height:34px!important;margin:0 8px 0 0!important}
+.address-card .btn{display:inline-flex!important;align-items:center!important;gap:5px!important}
+.address-card .btn .contact-icon{display:inline-block!important;position:static!important;margin:0!important}
+#album.section,#album + .infra,.leadership.section{padding-top:20px!important;padding-bottom:20px!important}
+#album .section-head,.infra .section-head,.leadership .section-head{margin:0 auto 10px!important}
+#album .section-head h2,.infra .section-head h2,.leadership .section-head h2{margin:4px 0 6px!important;line-height:1.05!important}
+#album .section-head p,.infra .section-head p,.leadership .section-head p{margin:0!important;line-height:1.45!important}
+.photo-strip{scroll-behavior:auto!important;overscroll-behavior-x:contain!important;scrollbar-gutter:auto!important}
+.photo-track{display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important;width:max-content!important}
+.photo-track figure{display:block!important;flex:0 0 auto!important}
+.site-stage{will-change:auto!important}
+@media(max-width:760px){
+ .brand{height:50px!important}.brand img{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;max-width:48px!important;max-height:48px!important}
+ .hero-machine span{font-size:9px!important;height:24px!important;min-height:24px!important;max-height:24px!important}
+ .contact-cards a{padding-left:52px!important}.contact-cards a>.contact-icon,.contact-icon img{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important}.contact-cards a>.contact-icon{left:12px!important;top:15px!important}
+ #album.section,#album + .infra,.leadership.section{padding-top:18px!important;padding-bottom:18px!important}
+}
+@media(max-width:480px){
+ .brand{height:46px!important}.brand img{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;max-width:44px!important;max-height:44px!important}
+ .hero-machine span{font-size:8.5px!important;height:22px!important;min-height:22px!important;max-height:22px!important}
+ .topbar .top-icon{width:16px!important;height:16px!important;min-width:16px!important;min-height:16px!important;max-width:16px!important;max-height:16px!important}
+ #album.section,#album + .infra,.leadership.section{padding-top:16px!important;padding-bottom:16px!important}
+}
+
+/* V5: image-based contact icons; sizes track the site's own zoom controls while staying fixed at 100%. */
+:root{--contact-icon-scale:1}
+.topbar .top-icon{width:calc(18px * var(--contact-icon-scale)) !important;height:calc(18px * var(--contact-icon-scale)) !important}
+.contact-icon,.contact-icon img{width:calc(34px * var(--contact-icon-scale)) !important;height:calc(34px * var(--contact-icon-scale)) !important}
+.contact-cards a>.contact-icon{width:calc(34px * var(--contact-icon-scale)) !important;height:calc(34px * var(--contact-icon-scale)) !important}
