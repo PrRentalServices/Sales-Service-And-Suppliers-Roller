@@ -109,3 +109,23 @@ html,body{max-width:100%;overflow-x:hidden}
 .goog-logo-link,.goog-te-gadget span{display:none!important}
 @media(max-width:760px){.hero-rollers{min-height:320px!important}.hero-machine-main{width:60%!important;height:225px!important;left:20%!important;top:8px!important}.hero-machine-left,.hero-machine-right{width:30%!important;height:125px!important;bottom:2px!important}.language-tools .container{justify-content:center}.goog-te-gadget select{max-width:190px}}
 @media(max-width:480px){.hero-rollers{min-height:275px!important}.hero-machine-main{width:60%!important;height:190px!important;left:20%!important;top:5px!important}.hero-machine-left,.hero-machine-right{width:31%!important;height:100px!important;bottom:0!important}}
+
+
+/* FINAL USER REQUEST UPDATES — only requested visual/interaction changes */
+body{font-size:17px}
+.hero-machine{display:flex!important;flex-direction:column!important;justify-content:stretch!important}
+.hero-machine img{flex:1 1 auto!important;min-height:0!important;height:auto!important}
+.hero-machine span{position:static!important;display:block!important;flex:0 0 auto!important;width:100%!important;margin:4px 0 0!important;background:rgba(5,9,13,.08)!important;color:#4b5156!important;text-align:center!important;padding:6px 8px!important;border-radius:7px!important;font-size:10px!important;letter-spacing:.8px!important}
+.contact-cards a{position:relative;padding-left:54px!important;min-height:72px}
+.contact-icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;background:#f0f1ef;color:#222;vertical-align:middle;flex:0 0 32px}.contact-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.whatsapp-icon svg{width:20px;height:20px}
+.contact-cards a>.contact-icon{position:absolute;left:16px;top:18px}
+.whatsapp-icon{font-size:17px;border:1px solid #cfd4d0}
+.address-link{display:block}
+.address-link .contact-icon{margin-right:8px}
+.address-card .btn{gap:5px}
+.address-card{cursor:pointer}
+.address-card p{font-size:17px}
+#album.section,#album + .infra,.leadership.section{padding-top:45px!important;padding-bottom:45px!important}
+#album .section-head,.infra .section-head,.leadership .section-head{margin-bottom:22px!important}
+@media(max-width:760px){body{font-size:16.5px}.hero-machine span{font-size:9px!important;padding:5px 6px!important;margin-top:3px!important}.contact-cards a{padding-left:50px!important}.contact-cards a>.contact-icon{left:13px;top:16px}}
+@media(max-width:480px){body{font-size:16px}.hero-machine span{font-size:8px!important}.contact-cards a{padding-left:48px!important}}

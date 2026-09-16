@@ -46,10 +46,9 @@ let recognition=null, speaking=false;
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
 const AI_GREETING='Welcome to PR Rental Services. How are you today? How can I help you?';
-let aiWelcomed=false;
 function openAi(){
   ai.classList.add('open'); ai.setAttribute('aria-hidden','false'); aiBtn.setAttribute('aria-expanded','true');
-  setTimeout(()=>{aiInput.focus(); if(!aiWelcomed){aiWelcomed=true; aiAdd(AI_GREETING,'bot');} aiSpeak(AI_GREETING);},120);
+  setTimeout(()=>{aiInput.focus(); aiSpeak(AI_GREETING);},120);
 }
 function closeAi(){
   ai.classList.remove('open'); ai.setAttribute('aria-hidden','true'); aiBtn.setAttribute('aria-expanded','false');
@@ -193,7 +192,7 @@ renderCategories();renderProducts();fillTopics();
     strip.addEventListener('touchstart', pauseAuto, {passive:true});
     const step = () => {
       if (!down && performance.now() >= pausedUntil) {
-        strip.scrollLeft += 3.00;
+        strip.scrollLeft += 6.00;
         const half = track.scrollWidth / 2;
         if (half > 0 && strip.scrollLeft >= half) strip.scrollLeft -= half;
       }
@@ -205,8 +204,8 @@ renderCategories();renderProducts();fillTopics();
 
 // Touch-friendly cards and address map.
 document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const el=e.target.closest('[data-product]');if(el){e.preventDefault();openProduct(el.dataset.product);}}});
-const mapUrl='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka 560094');
+const mapUrl='https://www.google.com/maps/search/?api=1&query=13.048028,77.577618';
 const addressCard=document.querySelector('.address-card'); if(addressCard){addressCard.setAttribute('role','link');addressCard.setAttribute('tabindex','0');addressCard.addEventListener('click',e=>{if(!e.target.closest('a')) window.open(mapUrl,'_blank');});addressCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(mapUrl,'_blank');}});}
 
 // FINAL IMAGE/UX OVERRIDES
-window.PR_GALLERY_SPEED = 3.0;
+window.PR_GALLERY_SPEED = 6.0;
