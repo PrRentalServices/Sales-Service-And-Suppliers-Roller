@@ -5,7 +5,7 @@ PR RENTAL SERVICES — GITHUB UPLOAD
 3. Do not upload the ZIP itself.
 4. Do not put these files inside another folder.
 5. index.html must be directly visible in the repository root.
-6. This version has the website images embedded inside the site code, so photos do not depend on a separate assets upload.
+6. All website photos are included as normal image files in the repository root, and the HTML/JS uses root-relative filenames so GitHub Pages can load them reliably.
 7. Commit changes.
 8. Settings > Pages > Deploy from branch > main > /(root) > Save.
 9. Wait for GitHub Pages deployment, then hard-refresh the website.

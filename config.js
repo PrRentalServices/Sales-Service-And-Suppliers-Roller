@@ -6,6 +6,6 @@ const PR_CONFIG = {
   gstin: "29BFVPP3412E1Z6",
   address: "Ground Floor, No. 194, 6th Cross, Maruthi Nagar, Near G R Kalyana Mandapa, Nagashetty Halli, RMV Extension 2nd Stage, Bengaluru Urban, Karnataka – 560094",
   UPI_ID: "9591887914-2@axl",
-  paymentQrFile: "assets/payment-qr.png",
+  paymentQrFile: "payment-qr.png",
   dynapacOfficial: "https://dynapac.com/in-en/"
 };
