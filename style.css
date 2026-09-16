@@ -210,3 +210,131 @@ html,body{margin:0;padding:0;width:100%;min-width:0}
 .topbar .top-icon{width:calc(18px * var(--contact-icon-scale)) !important;height:calc(18px * var(--contact-icon-scale)) !important}
 .contact-icon,.contact-icon img{width:calc(34px * var(--contact-icon-scale)) !important;height:calc(34px * var(--contact-icon-scale)) !important}
 .contact-cards a>.contact-icon{width:calc(34px * var(--contact-icon-scale)) !important;height:calc(34px * var(--contact-icon-scale)) !important}
+
+/* V8: keep top-bar icons visible on the dark background while preserving the original image files. */
+.contact-bar .top-icon { width:18px !important; height:18px !important; display:inline-block !important; object-fit:contain !important; vertical-align:-4px !important; margin-right:4px !important; }
+.contact-bar a:nth-child(1) .top-icon,
+.contact-bar a:nth-child(2) .top-icon,
+.contact-bar a:nth-child(3) .top-icon,
+.contact-bar a:nth-child(5) .top-icon { filter:brightness(0) invert(1) !important; }
+.contact-bar a:nth-child(4) .top-icon { filter:none !important; }
+.contact-cards .contact-icon img, .address-card .contact-icon img { display:block !important; visibility:visible !important; opacity:1 !important; }
+
+/* V9 FINAL CROSS-BROWSER ICON LOCK — Chrome / Firefox / Edge / Safari */
+.contact-bar-inner > a,
+.contact-cards > a,
+.address-link,
+.address-card .btn.light {
+  box-sizing: border-box !important;
+}
+.contact-bar-inner > a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  white-space: nowrap !important;
+}
+.contact-bar .top-icon {
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.contact-cards > a {
+  position: relative !important;
+  display: block !important;
+  min-height: 72px !important;
+  padding: 18px 18px 18px 60px !important;
+}
+.contact-cards > a > .contact-icon,
+.address-card .btn.light > .contact-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+.contact-cards > a > .contact-icon {
+  position: absolute !important;
+  left: 16px !important;
+  top: 18px !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.contact-icon img,
+.address-card .btn.light .contact-icon img {
+  display: block !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.address-link {
+  display: inline-flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+.address-link .contact-icon {
+  display: inline-flex !important;
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+.address-card .btn.light {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.address-card .btn.light .contact-icon {
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+}
+@media (max-width: 760px) {
+  .contact-bar .top-icon { width: 16px !important; height: 16px !important; min-width:16px !important; min-height:16px !important; max-width:16px !important; max-height:16px !important; }
+  .contact-cards > a { padding-left: 54px !important; }
+  .contact-cards > a > .contact-icon { left: 12px !important; top: 15px !important; }
+}
+@media (max-width: 480px) {
+  .contact-cards > a { padding-left: 50px !important; }
+  .contact-cards > a > .contact-icon,
+  .contact-icon img,
+  .address-link .contact-icon,
+  .address-card .btn.light .contact-icon { width: 32px !important; height: 32px !important; min-width:32px !important; min-height:32px !important; max-width:32px !important; max-height:32px !important; }
+  .contact-cards > a > .contact-icon { left: 10px !important; top: 15px !important; }
+}
