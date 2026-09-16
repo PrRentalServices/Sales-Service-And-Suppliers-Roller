@@ -1,0 +1,9 @@
+V7 icon assets
+
+WhatsApp: WhatsApp icon asset sourced from the WhatsApp/Meta brand asset lineage via Wikimedia Commons (File: WhatsApp Logo green.svg).
+Official guidance: https://www.meta.com/brand/resources/whatsapp/whatsapp-brand/
+
+Phone, Email, Location: Google Material Icons style PNG assets are included locally so they render consistently without external font loading.
+Official Google Material Icons documentation: https://developers.google.com/fonts/docs/material_icons
+
+All icons are bundled locally in /icons so the website does not depend on Google, Meta, or third-party image loading at runtime.

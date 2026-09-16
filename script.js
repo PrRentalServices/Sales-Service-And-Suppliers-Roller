@@ -199,13 +199,20 @@ renderCategories();renderProducts();fillTopics();
       track.appendChild(clone);
     });
     let pausedUntil = 0;
-    const pauseAuto = () => { pausedUntil = performance.now() + 1800; };
+    let lastFrame = performance.now();
+    // Chrome's previous 12px/frame speed at ~60fps = ~720 CSS px/sec.
+    // Use elapsed-time movement so Firefox/Edge keep the same real-world speed
+    // even when their animation frame rate differs.
+    const GALLERY_SPEED_PX_PER_SEC = 5760;
+    const pauseAuto = () => { pausedUntil = performance.now() + 1800; lastFrame = performance.now(); };
     strip.addEventListener('pointerdown', pauseAuto);
     strip.addEventListener('wheel', pauseAuto, {passive:true});
     strip.addEventListener('touchstart', pauseAuto, {passive:true});
-    const step = () => {
-      if (!down && performance.now() >= pausedUntil) {
-        strip.scrollLeft += 12.00;
+    const step = (now) => {
+      const dt = Math.min(50, Math.max(0, now - lastFrame));
+      lastFrame = now;
+      if (!down && now >= pausedUntil) {
+        strip.scrollLeft += GALLERY_SPEED_PX_PER_SEC * dt / 1000;
         const half = track.scrollWidth / 2;
         if (half > 0 && strip.scrollLeft >= half) strip.scrollLeft -= half;
       }
@@ -221,4 +228,4 @@ const mapUrl='https://www.google.com/maps/dir/?api=1&destination=13.048028,77.57
 const addressCard=document.querySelector('.address-card'); if(addressCard){addressCard.setAttribute('role','link');addressCard.setAttribute('tabindex','0');addressCard.addEventListener('click',e=>{if(!e.target.closest('a')) window.open(mapUrl,'_blank');});addressCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.open(mapUrl,'_blank');}});}
 
 // FINAL IMAGE/UX OVERRIDES
-window.PR_GALLERY_SPEED = 12.0;
+window.PR_GALLERY_SPEED = 5760; // CSS pixels per second; frame-rate independent
