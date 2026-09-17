@@ -394,3 +394,7 @@ html,body{margin:0;padding:0;width:100%;min-width:0}
   .contact-cards > a > .contact-icon, .address-link .contact-icon, .address-card .btn.light .contact-icon { width:32px !important; height:32px !important; flex-basis:32px !important; }
   .contact-cards > a > .contact-icon img, .address-link .contact-icon img, .address-card .btn.light .contact-icon img { width:27px !important; height:27px !important; min-width:27px !important; min-height:27px !important; max-width:27px !important; max-height:27px !important; }
 }
+
+/* V12: contact-bar image icons are embedded directly in HTML for cross-browser reliability */
+.contact-bar .top-icon{display:inline-block!important;width:18px!important;height:18px!important;min-width:18px!important;max-width:18px!important;min-height:18px!important;max-height:18px!important;object-fit:contain!important;object-position:center!important;vertical-align:middle!important;flex:0 0 18px!important;}
+.contact-bar a{display:inline-flex!important;align-items:center!important;gap:6px!important;}
